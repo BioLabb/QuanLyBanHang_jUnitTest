@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -32,12 +33,17 @@ public class SignController {
         @FXML
         private PasswordField password;
         @FXML
+        private TextField passwordText;
+        @FXML
         private CheckBox showPassword;
         @FXML
         private Button signIn;
         @FXML
         private Label signUp;
-
+        @FXML
+        private Button cancel;
+        @FXML
+        private AnchorPane scenePane;
 
 
     public void SignIn(ActionEvent event) throws IOException {
@@ -63,14 +69,27 @@ public class SignController {
             System.out.println("sign in fail");
     }
 
-    public void showPass()
+    public void showPass(ActionEvent event)
     {
-
+        if(showPassword.isSelected())
+        {
+            passwordText.setText(password.getText());
+            passwordText.setVisible(true);
+            password.setVisible(false);
+            return;
+        }
+        password.setText(passwordText.getText());
+        password.setVisible(true);
+        passwordText.setVisible(false);
     }
 
-    public void cancel(ActionEvent e){
+    public void cancel(ActionEvent e) throws IOException {
         user.setText("");
         password.setText("");
         //stop
+        Parent root = FXMLLoader.load(getClass().getResource("sign-view.fxml"));
+        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        System.out.println("Close succesful");
+        stage.close();
     }
 }
