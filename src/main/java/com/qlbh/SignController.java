@@ -12,8 +12,21 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SignController {
-    private String admin = "admin";
-    private String pass = "1234";
+    private static String userName = "admin";
+    private static String pass = "1234";
+    private  static boolean Manager = false;
+    private String fxmlViewName;
+    static void setAdmin(String user)
+    {
+        userName = user;
+    }
+    static void setManager(boolean accessManager){
+        Manager = accessManager;
+    }
+    static void setPass(String pass){
+        pass = pass;
+    }
+
     @FXML
         private TextField user;
         @FXML
@@ -28,15 +41,18 @@ public class SignController {
 
 
     public void SignIn(ActionEvent event) throws IOException {
-        String userName = null;
-        String passW = null;
-
-        userName = user.getText().toString();
-        passW = password.getText().toString();
+        String userName = user.getText().toString();
+        String passW = password.getText().toString();
 
         // sign admin
-        if(admin.equals(userName) && pass.equals(passW)){
-            Parent root = FXMLLoader.load(getClass().getResource("menu-admin-view.fxml"));
+        if(userName.equals(userName) && pass.equals(passW)){
+            if(Manager){
+                fxmlViewName = "menu-admin-view.fxml";
+            }
+            else {
+                fxmlViewName = "employee-view.fxml";
+            }
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlViewName));
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setTitle("Quản lý bán hàng");

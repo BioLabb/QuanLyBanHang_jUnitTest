@@ -12,9 +12,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //
-        System.out.println(getClass().getResource("menu-admin-view.fxml").toString());
-        System.out.println(getClass().toString());
-        window = FXMLLoader.load(getClass().getResource("sign-view.fxml"));
+        window = FXMLLoader.load(getClass().getResource("choose-access-view.fxml"));
         Scene scene = new Scene(window);
         stage.setTitle("Sign");
         stage.setScene(scene);

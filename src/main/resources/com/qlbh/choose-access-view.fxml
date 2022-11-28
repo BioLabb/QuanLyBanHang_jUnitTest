@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlbh.ChooseAccessController">
+   <children>
+      <Button fx:id="Manage" layoutX="176.0" layoutY="136.0" mnemonicParsing="false" onAction="#buttonManageClick" prefHeight="44.0" prefWidth="249.0" text="MANAGE" />
+      <Button fx:id="employess" layoutX="176.0" layoutY="231.0" mnemonicParsing="false" onAction="#buttonEmployeeClick" prefHeight="44.0" prefWidth="249.0" text="EMPLOYEES" />
+      <Label layoutX="223.0" layoutY="47.0" prefHeight="44.0" prefWidth="155.0" text="CHOOSE ACCESS" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
