@@ -18,16 +18,17 @@
                     <Font size="22.0" />
                 </font>
             </Label>
-            <Label layoutX="90.0" layoutY="75.0" text="User">
+            <Label layoutX="97.0" layoutY="99.0" text="User">
                 <font>
                     <Font size="18.0" />
                 </font>
             </Label>
-            <Label layoutX="88.0" layoutY="133.0" text="Passwork">
+            <Label layoutX="95.0" layoutY="157.0" text="Passwork">
                 <font>
                     <Font size="18.0" />
                 </font>
             </Label>
+<<<<<<< HEAD
             <Label fx:id="signUp" layoutX="222.0" layoutY="286.0" text="Sign up" underline="true">
                 <font>
                     <Font size="18.0" />
@@ -36,12 +37,22 @@
             <TextField fx:id="user" layoutX="181.0" layoutY="75.0" prefHeight="27.0" prefWidth="175.0" />
             <PasswordField fx:id="password" layoutX="180.0" layoutY="133.0" prefHeight="27.0" prefWidth="175.0" />
             <CheckBox fx:id="showPassword" layoutX="235.0" layoutY="169.0" mnemonicParsing="false" onAction="#showPass" text="Show password">
+=======
+            <TextField fx:id="user" layoutX="188.0" layoutY="99.0" prefHeight="27.0" prefWidth="175.0" />
+            <PasswordField fx:id="password" layoutX="187.0" layoutY="157.0" prefHeight="27.0" prefWidth="175.0" />
+            <CheckBox fx:id="showPassword" layoutX="242.0" layoutY="193.0" mnemonicParsing="false" onAction="#showPass" text="Show password">
+>>>>>>> 85488c4bf2f68d4be5f23ef26c59e9cee8aaf6cc
                 <font>
                     <Font size="14.0" />
                 </font>
             </CheckBox>
+<<<<<<< HEAD
             <Button fx:id="signIn" layoutX="177.0" layoutY="214.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="27.0" prefWidth="77.0" text="SIGN IN" />
             <Button fx:id="cancel" cancelButton="true" layoutX="270.0" layoutY="215.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="77.0" text="Cacel" />
+=======
+            <Button fx:id="signIn" layoutX="184.0" layoutY="238.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="27.0" prefWidth="77.0" text="SIGN IN" />
+            <Button cancelButton="true" layoutX="277.0" layoutY="239.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Cacel" />
+>>>>>>> 85488c4bf2f68d4be5f23ef26c59e9cee8aaf6cc
         </children>
     </Pane>
 </AnchorPane>

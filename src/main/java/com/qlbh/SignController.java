@@ -40,6 +40,7 @@ public class SignController {
         private Button signIn;
         @FXML
         private Label signUp;
+<<<<<<< HEAD
         @FXML
         private Button cancel;
         @FXML
@@ -81,6 +82,62 @@ public class SignController {
         password.setText(passwordText.getText());
         password.setVisible(true);
         passwordText.setVisible(false);
+=======
+
+    public void AlertShow(String content, Alert.AlertType type){
+        Alert alert = new Alert(type);
+        alert.setContentText(content);
+        alert.show();
+    }
+
+
+    public boolean validate()
+    {
+        if(user.getText().isEmpty()){
+//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//
+//            alert.setContentText("User trống");
+//            alert.show();
+            AlertShow("username Trống", Alert.AlertType.WARNING);
+            return false;
+        }
+        else if(password.getText().isEmpty()){
+            AlertShow("password Trống", Alert.AlertType.WARNING);
+            return  false;
+        }
+        return true;
+    }
+    public void SignIn(ActionEvent event) throws IOException {
+        if(validate()){
+            String userName = user.getText().toString();
+            String passW = password.getText().toString();
+
+            // sign admin
+            if(userName.equals(userName) && pass.equals(passW)){
+                if(Manager){
+                    fxmlViewName = "menu-admin-view.fxml";
+                }
+                else {
+                    fxmlViewName = "employee-view.fxml";
+                }
+                Parent root = FXMLLoader.load(getClass().getResource(fxmlViewName));
+                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setTitle("Quản lý bán hàng");
+                stage.setScene(scene);
+                stage.show();
+            }
+            else
+                AlertShow("username hoặc password không đúng",Alert.AlertType.WARNING);
+        }
+    }
+
+    public void showPass(ActionEvent e) {
+//        System.out.println("showpass");
+//        if(showPassword.isSelected()) {
+//            password.accessibleTextProperty();
+//        }
+>>>>>>> 85488c4bf2f68d4be5f23ef26c59e9cee8aaf6cc
     }
 
     public void cancel(ActionEvent e) throws IOException {
