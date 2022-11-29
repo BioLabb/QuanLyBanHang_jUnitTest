@@ -30,8 +30,4 @@ private void OpenScene(Stage stage,String nameViewFxml) throws IOException {
     stage.show();
 }
 
-//public void buttonEmployeeClick(ActionEvent e){
-//    Parent root = FXMLLoader.load(getClass().getResource("Sign-view.fxml"));
-//}
-
 }

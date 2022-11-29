@@ -1,5 +1,7 @@
 package com.qlbh;
 
+import com.config.JDBC;
+import com.services.EmployessServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,23 +12,20 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class SignController {
-    private static String userName = "admin";
-    private static String pass = "1234";
     private  static boolean Manager = false;
     private String fxmlViewName;
-    static void setAdmin(String user)
-    {
-        userName = user;
-    }
     static void setManager(boolean accessManager){
         Manager = accessManager;
     }
     static void setPass(String pass){
         pass = pass;
     }
-
     @FXML
         private TextField user;
         @FXML
@@ -40,29 +39,6 @@ public class SignController {
         @FXML
         private Label signUp;
 
-//    public void SignIn(ActionEvent event) throws IOException {
-//        String userName = user.getText().toString();
-//        String passW = password.getText().toString();
-//
-//        // sign admin
-//        if(userName.equals(userName) && pass.equals(passW)){
-//            if(Manager){
-//                fxmlViewName = "menu-admin-view.fxml";
-//            }
-//            else {
-//                fxmlViewName = "employee-view.fxml";
-//            }
-//            Parent root = FXMLLoader.load(getClass().getResource(fxmlViewName));
-//            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//            Scene scene = new Scene(root);
-//            stage.setTitle("Quản lý bán hàng");
-//            stage.setScene(scene);
-//            stage.show();
-//        }
-//        else
-//
-//      System.out.println("sign in fail");
-//    }
     public void showPass(ActionEvent event) {
         if (showPassword.isSelected()) {
             passwordText.setText(password.getText());
@@ -85,10 +61,6 @@ public class SignController {
     public boolean validate()
     {
         if(user.getText().isEmpty()){
-//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//
-//            alert.setContentText("User trống");
-//            alert.show();
             AlertShow("username Trống", Alert.AlertType.WARNING);
             return false;
         }
@@ -98,13 +70,32 @@ public class SignController {
         }
         return true;
     }
-    public void SignIn(ActionEvent event) throws IOException {
+
+    public boolean isEmployee(String userName, String pass, boolean manager) throws SQLException {
+        // kết nối
+        Connection connection = JDBC.getCnn();
+        // tạo query
+        PreparedStatement pstm = connection.prepareStatement("select password, maganer from employees where user = ?");
+        pstm.setString(1,userName);
+
+        ResultSet resultSet = pstm.executeQuery();
+
+        if(resultSet.next()){
+            String passAccess = resultSet.getString("password");
+            boolean managerAccess = resultSet.getBoolean("maganer");
+            if(passAccess.equals(pass) && managerAccess == manager){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void SignIn(ActionEvent event) throws IOException, SQLException {
+        // kiểm tra đầu vào có rỗng hay không
         if(validate()){
             String userName = user.getText().toString();
             String passW = password.getText().toString();
 
-            // sign admin
-            if(userName.equals(userName) && pass.equals(passW)){
+            if(isEmployee(userName, passW,Manager)){
                 if(Manager){
                     fxmlViewName = "menu-admin-view.fxml";
                 }
@@ -122,7 +113,6 @@ public class SignController {
                 AlertShow("username hoặc password không đúng",Alert.AlertType.WARNING);
         }
     }
-
 
     public void cancel(ActionEvent e) throws IOException {
         user.setText("");
