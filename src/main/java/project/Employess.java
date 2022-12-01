@@ -9,16 +9,13 @@ public class Employess {
 
     private Date birth;
 
-    public Employess(String lastName, String firstName, Date birth, String email, String phone, String address, String user, String password, boolean maganer) {
+    public Employess(int id,String user, String lastName, String firstName, String email, String phone) {
+        this.id = id;
+        this.user = user;
         this.lastName = lastName;
         this.firstName = firstName;
-        this.birth = birth;
         this.email = email;
         this.phone = phone;
-        this.address = address;
-        this.user = user;
-        this.password = password;
-        this.maganer = maganer;
     }
 
     private String email;
@@ -32,6 +29,18 @@ public class Employess {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.user = user;
+        this.password = password;
+        this.maganer = maganer;
+    }
+
+    public Employess(String lastName, String firstName, Date birth, String email, String phone, String address, String user, String password, boolean maganer) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birth = birth;
         this.email = email;
         this.phone = phone;
         this.address = address;

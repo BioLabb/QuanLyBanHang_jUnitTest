@@ -10,7 +10,8 @@ public class demo extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent roof = FXMLLoader.load(getClass().getResource("menu-admin-view.fxml"));
+        String rm = "remove-employee-view.fxml";
+        Parent roof = FXMLLoader.load(getClass().getResource(rm));
         Scene scene = new Scene(roof);
         stage.setScene(scene);
         stage.show();

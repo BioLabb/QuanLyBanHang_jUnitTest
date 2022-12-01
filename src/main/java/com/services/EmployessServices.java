@@ -3,12 +3,12 @@ package com.services;
 import com.config.JDBC;
 import project.Employess;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.PrimitiveIterator;
 
 public class EmployessServices {
+    private static Connection connection;
+    private  static Employess emp;
     public static void addEmployees(Employess emp) throws SQLException {
         Connection connection = JDBC.getCnn();
 //        this.id = id;
@@ -42,7 +42,36 @@ public class EmployessServices {
         stm.setString(8,emp.getPassword());
         stm.setBoolean(9,emp.isMaganer());
 
+    }
+
+    public static Employess findEmployeeByUser(String user) throws SQLException {
+        connection = JDBC.getCnn();
+
+        PreparedStatement stm = connection.prepareStatement("select * from employees where user = ?");
+        stm.setString(1,user);
+        ResultSet rs = stm.executeQuery();
+
+        if(rs.next()){
+            int id = rs.getInt("id");
+            String firstName = rs.getString("first_name");
+            String lastName = rs.getString("last_name");
+            String phone = rs.getString("mobile_phone");
+            String email = rs.getString("email_address");
+            emp = new Employess(id,user,lastName,firstName,email,phone);
+            return emp;
+        }
+        return null;
+    }
+
+    public static boolean removeById(int id) throws SQLException {
+        connection = JDBC.getCnn();
+
+        PreparedStatement stm = connection.prepareStatement("delete from employees where id = ?");
+        stm.setInt(1,id);
         int rs = stm.executeUpdate();
-        System.out.println(rs);
+        if(rs != 0){
+            return true;
+        }
+        return false;
     }
 }

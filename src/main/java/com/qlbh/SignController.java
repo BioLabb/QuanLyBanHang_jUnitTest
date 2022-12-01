@@ -50,21 +50,21 @@ public class SignController {
         passwordText.setVisible(false);
     }
 
-    public void AlertShow(String content, Alert.AlertType type){
-        Alert alert = new Alert(type);
-        alert.setContentText(content);
-        alert.show();
-    }
+//    public void AlertShow(String content, Alert.AlertType type){
+//        Alert alert = new Alert(type);
+//        alert.setContentText(content);
+//        alert.show();
+//    }
 
 
     public boolean validate()
     {
         if(user.getText().isEmpty()){
-            AlertShow("username Trống", Alert.AlertType.WARNING);
+            ShowAlert.show("username Trống", Alert.AlertType.WARNING);
             return false;
         }
         else if(password.getText().isEmpty()){
-            AlertShow("password Trống", Alert.AlertType.WARNING);
+            ShowAlert.show("password Trống", Alert.AlertType.WARNING);
             return  false;
         }
         return true;
@@ -109,7 +109,7 @@ public class SignController {
                 stage.show();
             }
             else
-                AlertShow("username hoặc password không đúng",Alert.AlertType.WARNING);
+                ShowAlert.show("username hoặc password không đúng",Alert.AlertType.WARNING);
         }
     }
 

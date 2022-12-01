@@ -1,7 +1,6 @@
 package com.qlbh;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -20,7 +19,7 @@ public class menuView {
         stage.show();
     }
 
-    public void goBack(ActionEvent e, String fxmlView,String title) throws IOException {
+    public void nextPage(ActionEvent e, String fxmlView, String title) throws IOException {
         Parent page = FXMLLoader.load(getClass().getResource(fxmlView));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         Scene scene = new Scene(page);

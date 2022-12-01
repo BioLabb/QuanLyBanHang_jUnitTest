@@ -45,16 +45,14 @@ public class menuAdminController extends menuView {
        String email = txt_email.getText();
 
        Employess employess = new Employess(lastName,firstName, Date.valueOf(date),email,phone,adress,userName,passWord,false);
-
        EmployessServices.addEmployees(employess);
-
-
-
-
    }
 
    public void goBack(ActionEvent e) throws IOException {
-       this.goBack(e,"sign-view.fxml","Sign");
+       this.nextPage(e,"sign-view.fxml","Sign");
    }
 
+   public void removeEmployee(ActionEvent e) throws IOException {
+       this.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
+   }
 }
