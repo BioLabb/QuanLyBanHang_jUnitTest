@@ -1,7 +1,6 @@
 package com.qlbh;
 
 import com.config.JDBC;
-import com.services.EmployessServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -122,5 +121,14 @@ public class SignController {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         System.out.println("Close succesful");
         stage.close();
+    }
+
+    public void back(ActionEvent e) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("choose-access-view.fxml"));
+        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Chọn quyền truy cập");
+        stage.show();
     }
 }

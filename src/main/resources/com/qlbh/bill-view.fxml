@@ -71,7 +71,7 @@
                 <Font size="24.0" />
             </font>
         </Label>
-        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#BackToHome" text="Trở về trang chủ" />
+        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Trở về trang chủ" />
         <Button layoutX="550.0" layoutY="14.0" mnemonicParsing="false" text="Print" />
     </children>
 </AnchorPane>

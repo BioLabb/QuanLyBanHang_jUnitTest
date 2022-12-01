@@ -29,12 +29,6 @@
                 </font>
             </Label>
 
-            <Label fx:id="signUp" layoutX="222.0" layoutY="286.0" text="Sign up" underline="true">
-                <font>
-                    <Font size="18.0" />
-                </font>
-            </Label>
-
             <TextField fx:id="user" layoutX="188.0" layoutY="99.0" prefHeight="27.0" prefWidth="175.0" />
             <CheckBox fx:id="showPassword" layoutX="242.0" layoutY="193.0" mnemonicParsing="false" onAction="#showPass" text="Show password">
 
@@ -46,6 +40,7 @@
 
             <Button fx:id="signIn" layoutX="184.0" layoutY="238.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="27.0" prefWidth="77.0" text="SIGN IN" />
             <Button cancelButton="true" layoutX="277.0" layoutY="239.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Cacel" />
+         <Button fx:id="button_back" layoutX="14.0" layoutY="325.0" mnemonicParsing="false" onAction="#back" text="Go back" />
 
         </children>
     </Pane>
