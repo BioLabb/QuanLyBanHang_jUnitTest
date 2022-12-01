@@ -11,15 +11,6 @@ public class EmployessServices {
     private  static Employess emp;
     public static void addEmployees(Employess emp) throws SQLException {
         Connection connection = JDBC.getCnn();
-//        this.id = id;
-//        this.lastName = lastName;
-//        this.firstName = firstName;
-//        this.email = email;
-//        this.phone = phone;
-//        this.address = address;
-//        this.user = user;
-//        this.password = password;
-//        this.maganer = maganer;
         PreparedStatement stm = connection.prepareStatement("INSERT INTO employees\n(" +
                 "last_name,\n" +
                 "first_name,\n" +
@@ -42,6 +33,7 @@ public class EmployessServices {
         stm.setString(8,emp.getPassword());
         stm.setBoolean(9,emp.isMaganer());
 
+        stm.executeUpdate();
     }
 
     public static Employess findEmployeeByUser(String user) throws SQLException {

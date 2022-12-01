@@ -1,6 +1,7 @@
 package com.qlbh;
 
 import com.services.EmployessServices;
+import javafx.scene.control.Alert;
 import project.Employess;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +47,8 @@ public class menuAdminController extends menuView {
 
        Employess employess = new Employess(lastName,firstName, Date.valueOf(date),email,phone,adress,userName,passWord,false);
        EmployessServices.addEmployees(employess);
+
+//       ShowAlert.show("Thêm thành công", Alert.AlertType.INFORMATION);
    }
 
    public void goBack(ActionEvent e) throws IOException {
