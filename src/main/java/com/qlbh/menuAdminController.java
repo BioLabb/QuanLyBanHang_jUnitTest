@@ -2,7 +2,11 @@ package com.qlbh;
 
 import com.config.JDBC;
 import com.services.EmployessServices;
+import com.store.EmployeesStore;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import project.Employess;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +17,11 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
-public class menuAdminController extends menuView {
+public class menuAdminController{
+    @FXML
+    private Label lb_maganer;
+    @FXML
+    private Label lb_user_name;
     @FXML
     private TextField txt_last_name;
     @FXML
@@ -23,6 +31,8 @@ public class menuAdminController extends menuView {
     @FXML
     private TextField txt_adress;
     @FXML
+    private Label lb_nv;
+    @FXML
     private TextField txt_user_name;
     @FXML
     private TextField txt_password;
@@ -31,8 +41,18 @@ public class menuAdminController extends menuView {
     @FXML
     private TextField txt_email;
 
+//    {
+//        lb_user_name.setText(EmployeesStore.getEmployess().getUser());
+//        if(EmployeesStore.getEmployess().isMaganer()){
+//            lb_maganer.setText("Admin");
+//        }
+//        else {
+//            lb_user_name.setText("Employee");
+//        }
+//    }
+
    public void bill(ActionEvent e) throws IOException {
-       this.OutputBill(e);
+       menuView.OutputBill(e);
    }
 
    // kiểm tra rỗng
@@ -52,11 +72,15 @@ public class menuAdminController extends menuView {
        return true;
    }
 
-   private boolean validator(String user, boolean manager){
-       if(!manager){
+   private boolean isUserNameEmployee(String user){
+       if(user.startsWith("NV"))
+           return true;
+       return false;
+   }
 
-       }
-
+   private boolean isCheckLength(String string,int lengthMin,int lengthMax){
+       if(string.length() >= lengthMin && string.length() <= lengthMax)
+           return true;
        return false;
    }
 
@@ -78,6 +102,7 @@ public class menuAdminController extends menuView {
 
    public void addEmployee() throws SQLException {
        String userName= txt_user_name.getText();
+       // kiểm tra tài khoản đã tạo hay chưa
        if(!isUserExist(userName)){
            String lastName= txt_last_name.getText();
            String firstName = txt_first_name.getText();
@@ -90,9 +115,24 @@ public class menuAdminController extends menuView {
            // kiểm tra thông tin dã được nhập đầy đủ chưa
            if(validator(lastName) && validator(firstName) && validator(adress) && validator(userName)
                    && validator(passWord) && validator(email) && validator(date)){
-               Employess employess = new Employess(lastName,firstName, Date.valueOf(date),email,phone,adress,userName,passWord,false);
-               EmployessServices.addEmployees(employess);
-               ShowAlert.show("Thêm thành công", Alert.AlertType.INFORMATION);
+
+               if(!(isCheckLength(userName,6,16))){
+                   ShowAlert.show("user từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
+               }
+               else if(!isCheckLength(passWord,6,16)){
+                   ShowAlert.show("password từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
+               }
+               else if(passWord.equals(userName)){
+                   ShowAlert.show("password không được trùng với username", Alert.AlertType.WARNING);
+               }
+               else {
+                   String nv = lb_nv.getText();
+                   String userSignUp = nv + txt_user_name.getText();
+                   Employess employess = new Employess(lastName,firstName, Date.valueOf(date),email,phone,adress,
+                           userSignUp,passWord,false);
+                   EmployessServices.addEmployees(employess);
+                   ShowAlert.show("Thêm thành công", Alert.AlertType.INFORMATION);
+               }
            }else{
                ShowAlert.show("Chưa điền đầy đủ thông tin", Alert.AlertType.WARNING);
            }
@@ -103,10 +143,10 @@ public class menuAdminController extends menuView {
    }
 
    public void goBack(ActionEvent e) throws IOException {
-       this.nextPage(e,"sign-view.fxml","Sign");
+       menuView.nextPage(e,"sign-view.fxml","Sign");
    }
 
    public void removeEmployee(ActionEvent e) throws IOException {
-       this.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
+       menuView.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
    }
 }

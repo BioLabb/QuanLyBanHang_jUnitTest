@@ -23,8 +23,8 @@
              <children>
                  <Pane layoutX="296.0" layoutY="6.0">
                      <children>
-                         <Label text="Adim" />
-                         <Label layoutX="55.0" text="UserName" />
+                         <Label fx:id="lb_maganer" text="Adim" />
+                         <Label fx:id="lb_user_name" layoutX="55.0" text="UserName" />
                          <Separator layoutX="35.0" layoutY="8.0" prefHeight="1.0" prefWidth="12.0" />
                      </children>
                  </Pane>
@@ -254,7 +254,7 @@
                                      </font>
                                  </Label>
                                  <Separator layoutX="14.0" layoutY="141.0" prefHeight="3.0" prefWidth="836.0" />
-                                 <TextField fx:id="txt_user_name" layoutX="142.0" layoutY="157.0" prefHeight="25.0" prefWidth="205.0" />
+                                 <TextField fx:id="txt_user_name" layoutX="170.0" layoutY="157.0" prefHeight="26.0" prefWidth="178.0" />
                                  <Label layoutX="14.0" layoutY="202.0" text="Password:">
                                      <font>
                                          <Font size="18.0" />
@@ -290,6 +290,11 @@
                               <Font size="14.0" />
                            </font>
                         </Button>
+                        <Label fx:id="lb_nv" layoutX="141.0" layoutY="156.0" prefHeight="27.0" prefWidth="28.0" text="NV">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
                              </children>
                          </AnchorPane>
                      </content>

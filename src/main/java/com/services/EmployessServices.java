@@ -49,7 +49,8 @@ public class EmployessServices {
             String lastName = rs.getString("last_name");
             String phone = rs.getString("mobile_phone");
             String email = rs.getString("email_address");
-            emp = new Employess(id,user,lastName,firstName,email,phone);
+            boolean maganer = rs.getBoolean("maganer");
+            emp = new Employess(id,user,lastName,firstName,email,phone,maganer);
             return emp;
         }
         return null;

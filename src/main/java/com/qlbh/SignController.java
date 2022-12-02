@@ -1,6 +1,8 @@
 package com.qlbh;
 
 import com.config.JDBC;
+import com.services.EmployessServices;
+import com.store.EmployeesStore;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import project.Employess;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,7 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SignController {
+public class SignController{
     private  static boolean Manager = false;
     private String fxmlViewName;
     static void setManager(boolean accessManager){
@@ -50,13 +53,6 @@ public class SignController {
         passwordText.setVisible(false);
     }
 
-//    public void AlertShow(String content, Alert.AlertType type){
-//        Alert alert = new Alert(type);
-//        alert.setContentText(content);
-//        alert.show();
-//    }
-
-
     public boolean validate()
     {
         if(user.getText().isEmpty()){
@@ -78,6 +74,7 @@ public class SignController {
         pstm.setString(1,userName);
 
         ResultSet resultSet = pstm.executeQuery();
+
 
         if(resultSet.next()){
             String passAccess = resultSet.getString("password");
@@ -101,6 +98,7 @@ public class SignController {
                 else {
                     fxmlViewName = "employee-view.fxml";
                 }
+                EmployeesStore.setEmployess(EmployessServices.findEmployeeByUser(userName));
                 Parent root = FXMLLoader.load(getClass().getResource(fxmlViewName));
                 Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
@@ -108,8 +106,9 @@ public class SignController {
                 stage.setScene(scene);
                 stage.show();
             }
-            else
+            else{
                 ShowAlert.show("username hoặc password không đúng",Alert.AlertType.WARNING);
+            }
         }
     }
 
@@ -124,11 +123,6 @@ public class SignController {
     }
 
     public void back(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("choose-access-view.fxml"));
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Chọn quyền truy cập");
-        stage.show();
+        menuView.nextPage(e,"choose-access-view.fxml","Chọn quyền truy cập");
     }
 }

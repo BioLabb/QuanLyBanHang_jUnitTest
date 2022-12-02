@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="364.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlbh.SignController">
+<AnchorPane prefHeight="364.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.qlbh.SignController">
     <Pane prefHeight="364.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
         <children>
          <TextField fx:id="passwordText" layoutX="188.0" layoutY="158.0" prefHeight="25.0" prefWidth="175.0" />
