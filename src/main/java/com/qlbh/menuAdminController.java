@@ -35,6 +35,7 @@ public class menuAdminController extends menuView {
        this.OutputBill(e);
    }
 
+   // kiểm tra rỗng
    private boolean validator(String val){
        if(val.isEmpty()){
            ShowAlert.show("Chưa điền đầy đủ thông tin", Alert.AlertType.WARNING);
@@ -43,6 +44,7 @@ public class menuAdminController extends menuView {
        return true;
    }
 
+   // kiểm tra ngày rỗng
    private boolean validator(LocalDate date){
        if(date == null){
            return false;
@@ -50,16 +52,30 @@ public class menuAdminController extends menuView {
        return true;
    }
 
+   private boolean validator(String user, boolean manager){
+       if(!manager){
+
+       }
+
+       return false;
+   }
+
+   // kiểm tra tài khoản tồn tại hay chưa
    public boolean isUserExist(String userName) throws SQLException {
 
        Connection connection = JDBC.getCnn();
-       PreparedStatement stm = connection.prepareStatement("select user from employees");
+       PreparedStatement stm = connection.prepareStatement("select user from employees where user = ?");
+       stm.setString(1, userName);
        ResultSet rs = stm.executeQuery();
        if(rs.next()){
            return true;
        }
        return false;
    }
+
+
+
+
    public void addEmployee() throws SQLException {
        String userName= txt_user_name.getText();
        if(!isUserExist(userName)){
@@ -71,6 +87,7 @@ public class menuAdminController extends menuView {
            String phone = txt_phone.getText();
            String email = txt_email.getText();
 
+           // kiểm tra thông tin dã được nhập đầy đủ chưa
            if(validator(lastName) && validator(firstName) && validator(adress) && validator(userName)
                    && validator(passWord) && validator(email) && validator(date)){
                Employess employess = new Employess(lastName,firstName, Date.valueOf(date),email,phone,adress,userName,passWord,false);
