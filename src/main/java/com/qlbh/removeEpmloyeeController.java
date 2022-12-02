@@ -1,6 +1,7 @@
 package com.qlbh;
 
 import com.services.EmployessServices;
+import com.store.EmployeesStore;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -43,13 +44,30 @@ public class removeEpmloyeeController extends menuView {
         }
     }
 
+    public boolean isEqualUserCurrent(int id){
+        if(id == EmployeesStore.getEmployess().getId()){
+            return true;
+        }
+        return false;
+    }
+
     public void remove(ActionEvent e) throws SQLException {
         int id = Integer.parseInt(lb_id.getText());
-        if(EmployessServices.removeById(id)){
-            ShowAlert.show("Xóa thành công", Alert.AlertType.INFORMATION);
+        if(!isEqualUserCurrent(id)){
+            if(EmployessServices.removeById(id)){
+                ShowAlert.show("Xóa thành công", Alert.AlertType.INFORMATION);
+            }
+            else {
+                lb_id.setText("");
+                lb_first_name.setText("");
+                lb_last_name.setText("");
+                lb_phone.setText("");
+                lb_email.setText("");
+                ShowAlert.show("Xóa thất bại", Alert.AlertType.WARNING);
+            }
         }
         else {
-            ShowAlert.show("Xóa thất bại", Alert.AlertType.WARNING);
+            ShowAlert.show("Không thể xoa user đang đăng nhập", Alert.AlertType.WARNING);
         }
     }
 }
