@@ -2,22 +2,30 @@ package com.qlbh;
 
 import com.config.JDBC;
 import com.services.EmployessServices;
+import com.services.ProductServices;
 import com.store.EmployeesStore;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import project.Employess;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import project.Product;
+import project.orderDetails;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
 
-public class menuAdminController{
+public class menuAdminController implements Initializable {
+    private int id;
+    @FXML
+    private Label id_other;
     @FXML
     private Label lb_maganer;
     @FXML
@@ -40,18 +48,66 @@ public class menuAdminController{
     private TextField txt_phone;
     @FXML
     private TextField txt_email;
+    @FXML
+    private TextField id_product;
+    @FXML
+    private Label product_name;
+    @FXML
+    private Label product_price;
 
-//    {
-//        lb_user_name.setText(EmployeesStore.getEmployess().getUser());
-//        if(EmployeesStore.getEmployess().isMaganer()){
-//            lb_maganer.setText("Admin");
-//        }
-//        else {
-//            lb_user_name.setText("Employee");
-//        }
-//    }
+    @FXML
+    private TableView<orderDetails> order_detail;
+    @FXML
+    private TableColumn<Product, Integer> id_colum;
+    @FXML
+    private TableColumn<Product,Integer> name_colum;
+    @FXML
+    private TableColumn<Product,Integer> quantity_colum;
+    @FXML
+    private TableColumn<Product,Integer> unit_price_colum;
+    private ObservableValue<orderDetails> orderDetailList;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-   public void bill(ActionEvent e) throws IOException {
+        int id = (int) (Math.random()* Math.pow(10,5))+ 9* (int)Math.pow(10,5);
+        String idString = String.format("%d",id);
+       id_other.setText(idString);
+
+       contentTextFieldChange();
+
+    }
+
+    public void initTableView(){
+       // id_colum.cellValueFactoryProperty(new PropertyValueFactory<orderDetails,int>())
+    }
+    void addProductIntoTable(ActionEvent event){
+
+    }
+    private void contentTextFieldChange(){
+        id_product.textProperty().addListener((observableValue, oldValue, newValue) ->{
+            if(id_product.getText().length() > 6){
+                id_product.setText(oldValue);
+
+            }
+            else if(id_product.getText().length() == 6){
+                int id = Integer.parseInt(id_product.getText());
+                try {
+                    Product product = ProductServices.findProductById(id);
+                    if(product != null){
+                        product_name.setText(product.getName());
+                        product_price.setText(String.valueOf(product.getPrice()));
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+
+    // -------------BÁN HÀNG-------------
+
+
+    public void bill(ActionEvent e) throws IOException {
        menuView.OutputBill(e);
    }
 
@@ -147,6 +203,7 @@ public class menuAdminController{
    }
 
    public void removeEmployee(ActionEvent e) throws IOException {
+
        menuView.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
    }
 }
