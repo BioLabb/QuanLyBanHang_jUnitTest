@@ -98,13 +98,9 @@ public class SignController{
                 else {
                     fxmlViewName = "employee-view.fxml";
                 }
+                menuView.nextPage(event,fxmlViewName,"Quản lý bán hàng");
                 EmployeesStore.setEmployess(EmployessServices.findEmployeeByUser(userName));
-                Parent root = FXMLLoader.load(getClass().getResource(fxmlViewName));
-                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setTitle("Quản lý bán hàng");
-                stage.setScene(scene);
-                stage.show();
+
             }
             else{
                 ShowAlert.show("username hoặc password không đúng",Alert.AlertType.WARNING);

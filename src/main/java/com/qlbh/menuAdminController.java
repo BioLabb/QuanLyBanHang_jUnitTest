@@ -122,7 +122,7 @@ public class menuAdminController{
                else if(!isCheckLength(passWord,6,16)){
                    ShowAlert.show("password từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
                }
-               else if(passWord.equals(userName)){
+               else if(userName.equals(EmployeesStore.getEmployess().getUser())){
                    ShowAlert.show("password không được trùng với username", Alert.AlertType.WARNING);
                }
                else {
