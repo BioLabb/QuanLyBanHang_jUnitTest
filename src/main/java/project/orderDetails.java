@@ -1,5 +1,6 @@
 package project;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class orderDetails {
@@ -9,6 +10,7 @@ public class orderDetails {
     private double quantity;
     private double price;
     private Date date;
+    private ArrayList<Orders> orders = new ArrayList<>();
 
     public orderDetails(int id, int orderId, int productId, double quantity, double price) {
         this.id = id;
@@ -16,6 +18,12 @@ public class orderDetails {
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
+    }
+    public void setOrders(Orders orders) {
+        this.orders.add(orders);
+    }
+    public ArrayList<Orders> getOrders() {
+        return orders;
     }
 
     private double disCount;
