@@ -4,19 +4,21 @@ import com.config.JDBC;
 import com.services.EmployessServices;
 import com.services.ProductServices;
 import com.store.EmployeesStore;
+<<<<<<< HEAD
 import javafx.beans.value.ObservableValue;
+=======
+>>>>>>> 910a4cc838cc43f8763a3dee9dd7336b1259f656
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import project.Employess;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import project.Product;
 import project.orderDetails;
+import table.OrderTable;
 
 import java.io.IOException;
 import java.net.URL;
@@ -52,21 +54,25 @@ public class menuAdminController implements Initializable {
     @FXML
     private TextField txt_email;
     @FXML
+    private Label id_order_detail;
+    @FXML
     private TextField id_product;
     @FXML
     private Label product_name;
     @FXML
     private Label product_price;
-
+    @FXML
+    private TextField product_quantity;
     @FXML
     private TableView<orderDetails> order_detail;
     @FXML
-    private TableColumn<Product, Integer> id_colum;
+    private TableColumn<Product, Integer> product_id_colum;
     @FXML
-    private TableColumn<Product,Integer> name_colum;
+    private TableColumn<Product,Integer> product_name_colum;
     @FXML
-    private TableColumn<Product,Integer> quantity_colum;
+    private TableColumn<Product,Integer> product_quantity_colum;
     @FXML
+<<<<<<< HEAD
     private TableColumn<Product,Integer> unit_price_colum;
     private ObservableValue<orderDetails> orderDetailList;
     @FXML
@@ -97,11 +103,20 @@ public class menuAdminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+=======
+    private TableColumn<OrderTable,Integer> unit_price_colum;
+    private ObservableList<OrderTable> orderDetailList = FXCollections.observableArrayList();
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // tạo mã đơn hàng
+>>>>>>> 910a4cc838cc43f8763a3dee9dd7336b1259f656
         int id = (int) (Math.random()* Math.pow(10,5))+ 9* (int)Math.pow(10,5);
         String idString = String.format("%d",id);
-       id_other.setText(idString);
+       id_order_detail.setText(idString);
+       initTableView();
+       contentTextFieldChange(6);
 
-       contentTextFieldChange();
 
         productList = FXCollections.observableArrayList(
                 new product(1, "ML001", "May Lanh", 3, "Chiec", 3500, 3500, 3500),
@@ -125,20 +140,33 @@ public class menuAdminController implements Initializable {
         BillView.Datetah = Dateta;
 
     }
+    // -------------BÁN HÀNG-------------
 
     public void initTableView(){
-       // id_colum.cellValueFactoryProperty(new PropertyValueFactory<orderDetails,int>())
+        product_id_colum.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        product_name_colum.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        product_quantity_colum.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
     }
-    void addProductIntoTable(ActionEvent event){
 
+    public void addOrderIntoTable(ActionEvent event){
+        int orderId = Integer.parseInt(id_order_detail.getText());
+        int productID = Integer.parseInt(id_product.getText());
+        String productName = product_name.getText();
+        double orderPrice = Double.parseDouble(product_price.getText());
+        int productQuantity = Integer.parseInt(product_quantity.getText());
+
+        OrderTable orderTable = new OrderTable(orderId,productID,productName,productQuantity, orderPrice, productQuantity*orderPrice);
+        orderDetailList.add(orderTable);
     }
-    private void contentTextFieldChange(){
+
+    // Giới hạn ký tự trong textFile
+    private void contentTextFieldChange(int length){
         id_product.textProperty().addListener((observableValue, oldValue, newValue) ->{
-            if(id_product.getText().length() > 6){
+            if(id_product.getText().length() > length){
                 id_product.setText(oldValue);
 
             }
-            else if(id_product.getText().length() == 6){
+            else if(id_product.getText().length() == length){
                 int id = Integer.parseInt(id_product.getText());
                 try {
                     Product product = ProductServices.findProductById(id);
@@ -153,7 +181,6 @@ public class menuAdminController implements Initializable {
         });
     }
 
-    // -------------BÁN HÀNG-------------
 
 
     public void bill(ActionEvent e) throws IOException {
