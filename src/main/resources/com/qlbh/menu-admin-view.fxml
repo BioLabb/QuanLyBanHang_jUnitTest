@@ -117,18 +117,19 @@
                                      </children>
                                  </Pane>
                                  <Separator layoutX="354.0" layoutY="13.0" orientation="VERTICAL" prefHeight="172.0" prefWidth="4.0" />
-                                 <TableView fx:id="tableView" layoutX="18.0" layoutY="239.0" prefHeight="219.0" prefWidth="632.0">
+                                 <TableView fx:id="table" layoutX="18.0" layoutY="239.0" prefHeight="219.0" prefWidth="632.0">
                                      <columns>
-                                         <TableColumn prefWidth="48.800048828125" text="STT" />
-                                         <TableColumn prefWidth="101.59996032714844" text="Mã sản phẩm" />
-                                         <TableColumn prefWidth="94.39994812011719" text="Tên sản phẩm" />
-                                         <TableColumn prefWidth="72.800048828125" text="Số lượng" />
-                                         <TableColumn prefWidth="68.79998779296875" text="Đơn vị" />
-                                         <TableColumn prefWidth="73.5999755859375" text="Giá" />
-                                         <TableColumn prefWidth="100.79998779296875" text="Thành tiền" />
-                                         <TableColumn prefWidth="64.800048828125" text="Mua" />
+                                         <TableColumn fx:id="numberColumn" prefWidth="48.800048828125" text="STT" />
+                                         <TableColumn fx:id="IDcolumn" prefWidth="101.59996032714844" text="Mã sản phẩm" />
+                                         <TableColumn fx:id="nameColumn" prefWidth="94.39994812011719" text="Tên sản phẩm" />
+                                         <TableColumn fx:id="amountColumn" prefWidth="72.800048828125" text="Số lượng" />
+                                         <TableColumn fx:id="dvColumn" prefWidth="68.79998779296875" text="Đơn vị" />
+                                         <TableColumn fx:id="priceColumn" prefWidth="73.5999755859375" text="Giá" />
+                                         <TableColumn fx:id="thanhTienColumn" prefWidth="100.79998779296875" text="Thành tiền" />
+                                         <TableColumn fx:id="buyColumn" prefWidth="64.800048828125" text="Mua" />
                                      </columns>
                                  </TableView>
+                        <DatePicker fx:id="Dateta" layoutX="464.0" layoutY="198.0" />
                              </children>
                   </Pane>
                      </content>

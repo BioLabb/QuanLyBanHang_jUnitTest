@@ -7,7 +7,7 @@ public class JDBC {
     private Connection cnn;
     private String url = "jdbc:mysql://localhost:3306/northwind";
     private String user = "root";
-    private String pass = "admin123";
+    private String pass = "231409859";
 
     static {
         // nạp driver
@@ -19,7 +19,7 @@ public class JDBC {
     }
 
     public static Connection getCnn() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind","root","admin123");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind","root","231409859");
     }
 
 //    public static void main(String[] args) throws ClassNotFoundException, SQLException {

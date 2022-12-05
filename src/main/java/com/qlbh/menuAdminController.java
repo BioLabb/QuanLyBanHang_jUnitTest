@@ -5,6 +5,8 @@ import com.services.EmployessServices;
 import com.services.ProductServices;
 import com.store.EmployeesStore;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class menuAdminController implements Initializable {
@@ -66,14 +69,60 @@ public class menuAdminController implements Initializable {
     @FXML
     private TableColumn<Product,Integer> unit_price_colum;
     private ObservableValue<orderDetails> orderDetailList;
+    @FXML
+    private TableView<dt> tbdt;
+    @FXML
+    private TableView<product> table;
+    @FXML
+    private TableColumn<product, Integer> numberColumn;
+    @FXML
+    private TableColumn<product, String > IDcolumn;
+    @FXML
+    private TableColumn<product, String> nameColumn;
+    @FXML
+    private TableColumn<product, Integer> amountColumn;
+    @FXML
+    private TableColumn<product, String> dvColumn;
+    @FXML
+    private TableColumn<product, Double> priceColumn;
+    @FXML
+    private TableColumn<product, Double> thanhTienColumn;
+    @FXML
+    private TableColumn<product, Double> buyColumn;
+
+    private ObservableList<product> productList;
+
+    @FXML
+    private DatePicker Dateta;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         int id = (int) (Math.random()* Math.pow(10,5))+ 9* (int)Math.pow(10,5);
         String idString = String.format("%d",id);
        id_other.setText(idString);
 
        contentTextFieldChange();
+
+        productList = FXCollections.observableArrayList(
+                new product(1, "ML001", "May Lanh", 3, "Chiec", 3500, 3500, 3500),
+                new product(2, "ML002", "May Lanh", 3, "Chiec", 3500, 3500, 3500),
+                new product(3, "ML003", "May Lanh", 3, "Chiec", 3500, 3500, 3500),
+                new product(4, "ML004", "May Lanh", 3, "Chiec", 3500, 3500, 3500)
+        );
+        numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
+        IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("amount"));
+        dvColumn.setCellValueFactory(new PropertyValueFactory<product, String>("dv"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("gia"));
+        thanhTienColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("thanhTien"));
+        buyColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("mua"));
+        table.setItems(productList);
+
+        BillView.product = productList;
+        Dateta.setValue(LocalDate.now());
+
+        BillView.Datetah = Dateta;
 
     }
 

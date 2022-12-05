@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="364.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.qlbh.SignController">
+<AnchorPane prefHeight="364.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlbh.SignController">
     <Pane prefHeight="364.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
         <children>
          <TextField fx:id="passwordText" layoutX="188.0" layoutY="158.0" prefHeight="25.0" prefWidth="175.0" />
@@ -40,7 +39,7 @@
             <PasswordField fx:id="password" layoutX="188.0" layoutY="157.0" prefHeight="27.0" prefWidth="175.0" />
 
             <Button fx:id="signIn" layoutX="184.0" layoutY="238.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="27.0" prefWidth="77.0" text="SIGN IN" />
-            <Button cancelButton="true" layoutX="277.0" layoutY="239.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Cacel" />
+            <Button cancelButton="true" layoutX="277.0" layoutY="239.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="77.0" text="Cacel" />
          <Button fx:id="button_back" layoutX="14.0" layoutY="325.0" mnemonicParsing="false" onAction="#back" text="Go back" />
 
         </children>
