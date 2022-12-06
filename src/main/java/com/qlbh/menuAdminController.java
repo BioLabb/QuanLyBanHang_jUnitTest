@@ -244,7 +244,7 @@ public class menuAdminController implements Initializable {
    public void addEmployee() throws SQLException {
        String userName= txt_user_name.getText();
        // kiểm tra tài khoản đã tạo hay chưa
-       if(!isUserExist(userName)){
+       if(!isUserExist("NV"+userName)){
            String lastName= txt_last_name.getText();
            String firstName = txt_first_name.getText();
            LocalDate date = txt_date.getValue();
@@ -253,7 +253,6 @@ public class menuAdminController implements Initializable {
            String phone = txt_phone.getText();
            String email = txt_email.getText();
 
-           System.out.println("250: "+ txt_date.getValue());
            // kiểm tra thông tin dã được nhập đầy đủ chưa
            if(validator(lastName) && validator(firstName) && validator(adress) && validator(userName)
                    && validator(passWord) && validator(email)){
@@ -265,7 +264,7 @@ public class menuAdminController implements Initializable {
                }
                else if(userName.equals(EmployeesStore.getEmployess().getUser())){
                    ShowAlert.show("password không được trùng với username", Alert.AlertType.WARNING);
-               }else if(validator(date)){
+               }else if(!validator(date)){
                    ShowAlert.show("Ngày tháng không hợp lê", Alert.AlertType.WARNING);
                }
                else {
