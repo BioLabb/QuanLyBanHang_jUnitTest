@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -24,14 +23,14 @@
         <Label layoutX="220.0" layoutY="147.0" text="Ngày thanh toán:" />
         <Label layoutX="220.0" layoutY="175.0" text="Số hóa đơn:" />
         <Label fx:id="IDBill" layoutX="319.0" layoutY="175.0" text="Label" />
-        <TableView fx:id="table" layoutX="14.0" layoutY="205.0" prefHeight="200.0" prefWidth="575.0">
+        <TableView fx:id="order_detail" layoutX="14.0" layoutY="205.0" prefHeight="200.0" prefWidth="575.0">
             <columns>
-                <TableColumn fx:id="numberColumn" prefWidth="75.0" text="STT" />
-                <TableColumn fx:id="IDcolumn" prefWidth="98.0" text="Mã Sản Phẩm" />
-                <TableColumn fx:id="nameColumn" prefWidth="182.0" text="Tên sản phẩm" />
-                <TableColumn fx:id="amountColumn" minWidth="0.0" prefWidth="66.0" text="Số lượng" />
-                <TableColumn fx:id="dvColumn" prefWidth="49.0" text="Đơn vị" />
-                <TableColumn fx:id="priceColumn" prefWidth="104.0" text="Giá" />
+                <TableColumn fx:id="stt_colum" prefWidth="50.4000244140625" text="STT" />
+                <TableColumn fx:id="product_id_colum" prefWidth="102.4000244140625" text="Mã Sản Phẩm" />
+                <TableColumn fx:id="product_name_colum" prefWidth="132.0" text="Tên sản phẩm" />
+                <TableColumn fx:id="product_quantity_colum" minWidth="0.0" prefWidth="92.79998779296875" text="Số lượng" />
+                <TableColumn fx:id="unit_price_colum" prefWidth="103.99993896484375" text="Giá" />
+            <TableColumn fx:id="total_colum" text="Thành tiền" />
             </columns>
         </TableView>
         <Label layoutX="14.0" layoutY="415.0" text="Thành Tiền:">
@@ -72,7 +71,7 @@
             </font>
         </Label>
         <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#BackToHome" text="Trở về trang chủ" />
-        <Button layoutX="550.0" layoutY="14.0" mnemonicParsing="false" text="Print" />
-      <DatePicker fx:id="lbDate" layoutX="319.0" layoutY="143.0" />
+        <Button layoutX="550.0" layoutY="14.0" mnemonicParsing="false" onAction="#print" text="Print" />
+      <Label fx:id="lbDate" layoutX="319.0" layoutY="147.0" prefHeight="18.0" prefWidth="119.0" text="0" />
     </children>
 </AnchorPane>

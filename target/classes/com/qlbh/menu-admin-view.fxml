@@ -101,19 +101,18 @@
                                                  <Font size="14.0" />
                                              </font>
                                          </Label>
-                                         <TextField layoutX="165.0" layoutY="58.0" />
-                                         <Label layoutX="162.0" layoutY="28.0" text="0">
+                                         <TextField fx:id="cus_pay" layoutX="165.0" layoutY="58.0" />
+                                         <Label fx:id="pay_order_detail" layoutX="162.0" layoutY="28.0" text="0">
                                              <font>
                                                  <Font size="14.0" />
                                              </font>
                                          </Label>
-                                         <Label layoutX="162.0" layoutY="93.0" text="0">
+                                         <Label fx:id="change" layoutX="162.0" layoutY="93.0" text="0">
                                              <font>
                                                  <Font size="14.0" />
                                              </font>
                                          </Label>
-                                         <Button layoutX="211.0" layoutY="137.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Thanh toán" />
-                                         <Button layoutX="107.0" layoutY="137.0" mnemonicParsing="false" onAction="#bill" prefHeight="25.0" prefWidth="70.0" text="In" />
+                                         <Button layoutX="211.0" layoutY="137.0" mnemonicParsing="false" onAction="#buy" prefHeight="25.0" prefWidth="82.0" text="Thanh toán" />
                                      </children>
                                  </Pane>
                                  <Separator layoutX="354.0" layoutY="13.0" orientation="VERTICAL" prefHeight="172.0" prefWidth="4.0" />
@@ -142,20 +141,20 @@
 <!--=======-->
                                  <TableView fx:id="order_detail" layoutX="18.0" layoutY="239.0" prefHeight="219.0" prefWidth="632.0">
                                      <columns>
-                                         <TableColumn prefWidth="48.800048828125" text="STT" />
+                                         <TableColumn fx:id="stt_colum" prefWidth="48.800048828125" text="STT" />
                                          <TableColumn fx:id="product_id_colum" prefWidth="101.59996032714844" text="Mã sản phẩm" />
                                          <TableColumn fx:id="product_name_colum" prefWidth="94.39994812011719" text="Tên sản phẩm" />
                                          <TableColumn fx:id="product_quantity_colum" prefWidth="72.800048828125" text="Số lượng" />
-                                         <TableColumn prefWidth="68.79998779296875" text="Đơn vị" />
                                          <TableColumn fx:id="unit_price_colum" prefWidth="73.5999755859375" text="Giá" />
-                                         <TableColumn prefWidth="100.79998779296875" text="Thành tiền" />
-                                         <TableColumn prefWidth="64.800048828125" text="Mua" />
+                                         <TableColumn fx:id="total_colum" prefWidth="100.79998779296875" text="Thành tiền" />
 <!--&gt;>>>>>> 910a4cc838cc43f8763a3dee9dd7336b1259f656-->
                                      </columns>
                                  </TableView>
+
                         <DatePicker fx:id="Dateta" layoutX="464.0" layoutY="198.0" />
                         <Label layoutX="329.0" layoutY="215.0" text="Thành Tiền:" />
                         <Label fx:id="PriceOut" layoutX="397.0" layoutY="215.0" text="Label" />
+
                              </children>
                   </Pane>
                      </content>
@@ -210,7 +209,7 @@
                      <content>
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                              <children>
-                                 <LineChart fx:id="lineChart" layoutX="286.0" layoutY="34.0" prefHeight="313.0" prefWidth="368.0">
+                                 <LineChart fx:id="lineChart" layoutX="306.0" layoutY="34.0" prefHeight="313.0" prefWidth="348.0">
                                      <xAxis>
                                          <CategoryAxis label="DAY" side="BOTTOM" />
                                      </xAxis>
@@ -224,7 +223,6 @@
                                          <TableColumn fx:id="profit" minWidth="0.0" prefWidth="108.0" text="Profit" />
                                      </columns>
                                  </TableView>
-                                 <DatePicker layoutX="14.0" layoutY="14.0" />
                              </children>
                   </AnchorPane>
                      </content>

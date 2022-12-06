@@ -28,15 +28,9 @@ public class JDBC {
 //
 //        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind","root","admin123");
 //
-//        Statement statement = connection.createStatement();
-//        ResultSet rs = statement.executeQuery("Select * from customers");
-//
-//        while (rs.next()){
-//            int id = rs.getInt("id");
-//            String lastName = rs.getString("last_name");
-//            System.out.println(id + " " + lastName);
-//        }
-//
+//        PreparedStatement stm = connection.prepareStatement("select user from employees where user = ?");
+//        stm.setString(1, "NVanh");
+//        ResultSet rs = stm.executeQuery();
 //
 //    }
 }

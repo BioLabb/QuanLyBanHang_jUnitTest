@@ -3,10 +3,6 @@ package com.project;
 import java.util.Date;
 
 public class Employess {
-    public Employess(int id, String user) {
-        this.id = id;
-        this.user = user;
-    }
 
     public Employess(String user) {
         this.user = user;
@@ -17,15 +13,6 @@ public class Employess {
     private String firstName;
 
     private Date birth;
-
-    public Employess(int id,String user, String lastName, String firstName, String email, String phone) {
-        this.id = id;
-        this.user = user;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.email = email;
-        this.phone = phone;
-    }
 
     private String email;
     private String phone;
@@ -56,6 +43,19 @@ public class Employess {
         this.user = user;
         this.password = password;
         this.maganer = maganer;
+    }
+    public Employess(int id, String user) {
+        this.id = id;
+        this.user = user;
+    }
+
+    public Employess(int id,String user, String lastName, String firstName, String email, String phone) {
+        this.id = id;
+        this.user = user;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.phone = phone;
     }
 
     public Employess(int id, String user, String lastName, String firstName, String email, String phone, boolean maganer) {

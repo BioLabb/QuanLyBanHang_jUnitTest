@@ -17,15 +17,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SignController{
+public class SignController {
     private  static boolean Manager = false;
     private String fxmlViewName;
-    static void setManager(boolean accessManager){
-        Manager = accessManager;
-    }
-    static void setPass(String pass){
-        pass = pass;
-    }
     @FXML
         private TextField user;
         @FXML
@@ -39,16 +33,23 @@ public class SignController{
         @FXML
         private Label signUp;
 
+    static void setManager(boolean accessManager){
+        Manager = accessManager;
+    }
+    static void setPass(String pass){
+        pass = pass;
+    }
     public void showPass(ActionEvent event) {
         if (showPassword.isSelected()) {
             passwordText.setText(password.getText());
             passwordText.setVisible(true);
             password.setVisible(false);
-            return;
         }
-        password.setText(passwordText.getText());
-        password.setVisible(true);
-        passwordText.setVisible(false);
+        else{
+            password.setText(passwordText.getText());
+            password.setVisible(true);
+            passwordText.setVisible(false);
+        }
     }
 
     public boolean validate()
@@ -96,8 +97,8 @@ public class SignController{
                 else {
                     fxmlViewName = "employee-view.fxml";
                 }
-                menuView.nextPage(event,fxmlViewName,"Quản lý bán hàng");
                 EmployeesStore.setEmployess(EmployessServices.findEmployeeByUser(userName));
+                menuView.nextPage(event,fxmlViewName,"Quản lý bán hàng");
 
             }
             else{

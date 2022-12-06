@@ -1,24 +1,34 @@
 package com.project;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
-public class orderDetails {
+public class OrderDetails {
     private int id;
     private int orderId;
     private int productId;
-    private double quantity;
+    private int quantity;
     private double price;
+    private double discount;
     private Date date;
     private ArrayList<Orders> orders = new ArrayList<>();
 
-    public orderDetails(int id, int orderId, int productId, double quantity, double price) {
+    public OrderDetails(int id, int orderId, int productId, int quantity, double price) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
     }
+
+    public OrderDetails(int orderId, int productId, int quantity, double price, Date date) {
+        this.orderId = orderId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.price = price;
+        this.date = date;
+    }
+
     public void setOrders(Orders orders) {
         this.orders.add(orders);
     }
@@ -27,6 +37,18 @@ public class orderDetails {
     }
 
     private double disCount;
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public void setOrders(ArrayList<Orders> orders) {
+        this.orders = orders;
+    }
 
     public Date getDate() {
         return date;
@@ -68,11 +90,11 @@ public class orderDetails {
         this.productId = productId;
     }
 
-    public double getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

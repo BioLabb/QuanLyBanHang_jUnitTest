@@ -1,9 +1,12 @@
 package com.qlbh;
 
 import com.config.JDBC;
+import com.project.OrderDetails;
 import com.services.EmployessServices;
 import com.services.ProductServices;
+import com.services.OrderDetailsServices;
 import com.store.EmployeesStore;
+import com.store.TableOrderDetailStore;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -15,8 +18,6 @@ import com.project.Employess;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import com.project.Product;
-import com.project.orderDetails;
-import com.table.OrderTable;
 
 import java.io.IOException;
 import java.net.URL;
@@ -66,16 +67,17 @@ public class menuAdminController implements Initializable {
     @FXML
     private TextField product_quantity;
     @FXML
-    private TableView<orderDetails> order_detail;
+    private Label pay_order_detail;
     @FXML
-    private TableColumn<Product, Integer> product_id_colum;
+    private TextField cus_pay;
     @FXML
-    private TableColumn<Product,Integer> product_name_colum;
+    private Label change;
+
     @FXML
-    private TableColumn<Product,Integer> product_quantity_colum;
-    @FXML
-    private TableColumn<OrderTable,Integer> unit_price_colum;
-    private ObservableList<OrderTable> orderDetailList = FXCollections.observableArrayList();
+    private TableView<TableOrderDetail> order_detail;
+//    @FXML
+//    private TableColumn<OrderTable,Integer> unit_price_colum;
+//    private ObservableList<OrderTable> orderDetailList = FXCollections.observableArrayList();
 
     //tableview tab 1
     @FXML
@@ -112,7 +114,7 @@ public class menuAdminController implements Initializable {
     @FXML
     private TableView<ProfitList> table2;
     @FXML
-    private TableColumn<ProfitList, java.util.Date> oDay;
+    private TableColumn<ProfitList, Date> oDay;
     @FXML
     private TableColumn<ProfitList, Double> profit;
 
@@ -146,14 +148,36 @@ public class menuAdminController implements Initializable {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+    @FXML
+    private TableColumn<TableOrderDetail, Integer> stt_colum;
+    @FXML
+    private TableColumn<TableOrderDetail, Integer> product_id_colum;
+    @FXML
+    private TableColumn<TableOrderDetail,String> product_name_colum;
+    @FXML
+    private TableColumn<TableOrderDetail,Integer> product_quantity_colum;
+    @FXML
+    private TableColumn<TableOrderDetail,Integer> unit_price_colum;
+    @FXML
+    private TableColumn<TableOrderDetail,Integer> total_colum;
+    private ObservableList<TableOrderDetail> orderDetailList;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        String Access = "";
+        if(EmployeesStore.getEmployess().isMaganer()){
+            Access = "Admin";
+        }else {
+            Access = "Employees";
+        }
+        lb_maganer.setText(Access);
+        lb_user_name.setText(String.format("%s %s",EmployeesStore.getEmployess().getFirstName(),EmployeesStore.getEmployess().getLastName()));
+
+
         // tạo mã đơn hàng
-        int id = (int) (Math.random()* Math.pow(10,5))+ 9* (int)Math.pow(10,5);
-        String idString = String.format("%d",id);
+       int id = (int) (Math.random()* Math.pow(10,5))+ 9* (int)Math.pow(10,5);
+       String idString = String.format("%d",id);
        id_order_detail.setText(idString);
-       initTableView();
        contentTextFieldChange(6);
         try {
 //            loadTable();
@@ -177,26 +201,58 @@ public class menuAdminController implements Initializable {
 //        BillView.priceOut = Double.parseDouble(PriceOut.getText()); //Hien Thi Label Thanh Tien
 
 
+       pay_change();
+       initTableView();
+
     }
+
     // -------------BÁN HÀNG-------------
 
     public void initTableView(){
+
+        stt_colum.setCellValueFactory(new PropertyValueFactory<>("stt"));
         product_id_colum.setCellValueFactory(new PropertyValueFactory<>("productID"));
         product_name_colum.setCellValueFactory(new PropertyValueFactory<>("productName"));
         product_quantity_colum.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
-    }
+        unit_price_colum.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
+        total_colum.setCellValueFactory(new PropertyValueFactory<>("total"));
 
+        order_detail.setItems(TableOrderDetailStore.getTableOrderDetailsList());
+    }
+    // thêm item vào table
     public void addOrderIntoTable(ActionEvent event){
         int orderId = Integer.parseInt(id_order_detail.getText());
         int productID = Integer.parseInt(id_product.getText());
         String productName = product_name.getText();
-        double orderPrice = Double.parseDouble(product_price.getText());
-        int productQuantity = Integer.parseInt(product_quantity.getText());
 
-        OrderTable orderTable = new OrderTable(orderId,productID,productName,productQuantity, orderPrice, productQuantity*orderPrice);
-        orderDetailList.add(orderTable);
+        int productQuantity = Integer.parseInt(product_quantity.getText());
+        double orderPrice = Double.parseDouble(product_price.getText());
+        double total = productQuantity* orderPrice;
+        TableOrderDetail tableOrderDetail = new TableOrderDetail(orderId,productID,productName,productQuantity,orderPrice,total);
+        //tableOrderDetail.setId(orderDetailList.size()+1);  // sô thứ tự
+//        orderDetailList.add(tableOrderDetail);
+        TableOrderDetailStore.addList(tableOrderDetail);
+        order_detail.setItems(TableOrderDetailStore.getTableOrderDetailsList());
+
+        pay_order_detail.setText(String.valueOf(totalPay()));
     }
 
+    public void buy(ActionEvent event) throws SQLException, IOException {
+        // đưa đơn hàng vào cơ sở dữ liệu
+        for (TableOrderDetail value: TableOrderDetailStore.getTableOrderDetailsList()) {
+            TableOrderDetailStore.setId(Integer.parseInt(id_order_detail.getText()));
+            Date date = Date.valueOf(LocalDate.now());
+            TableOrderDetailStore.setDate(date);
+
+            TableOrderDetailStore.setPay(Double.parseDouble(pay_order_detail.getText()));
+            TableOrderDetailStore.setChange(Double.parseDouble(change.getText()));
+
+
+            OrderDetails orderDetails = new OrderDetails(value.getOrderID(),value.getProductID(), value.getProductQuantity(), value.getTotal(),date);
+            OrderDetailsServices.addOrderDetail(orderDetails);
+        }
+        menuView.nextPage(event,"bill-view.fxml","Hóa đơn");
+    }
     // Giới hạn ký tự trong textFile
     private void contentTextFieldChange(int length){
         id_product.textProperty().addListener((observableValue, oldValue, newValue) ->{
@@ -219,12 +275,33 @@ public class menuAdminController implements Initializable {
         });
     }
 
+    private void pay_change(){
+        cus_pay.textProperty().addListener((observable,oldVal,newVal)->{
+            double pay = Double.parseDouble(pay_order_detail.getText());
+            double cus_money = Double.parseDouble(cus_pay.getText());
+            double moneyOfCus;
+            if(cus_money > pay){
+                moneyOfCus = cus_money - pay;
+                change.setText(String.format("%.3f",moneyOfCus));
+            }
+        });
+    }
+
+    public double totalPay(){
+        double sum = 0;
+        for(TableOrderDetail tb : TableOrderDetailStore.getTableOrderDetailsList()){
+            sum+= tb.getTotal();
+        }
+        return sum;
+    }
+
 
 
     public void bill(ActionEvent e) throws IOException {
        menuView.OutputBill(e);
    }
 
+// ------------ THÊM NHÂN VIÊN-------------
    // kiểm tra rỗng
    private boolean validator(String val){
        if(val.isEmpty()){
@@ -268,12 +345,10 @@ public class menuAdminController implements Initializable {
    }
 
 
-
-
    public void addEmployee() throws SQLException {
        String userName= txt_user_name.getText();
        // kiểm tra tài khoản đã tạo hay chưa
-       if(!isUserExist(userName)){
+       if(!isUserExist("NV"+userName)){
            String lastName= txt_last_name.getText();
            String firstName = txt_first_name.getText();
            LocalDate date = txt_date.getValue();
@@ -284,8 +359,7 @@ public class menuAdminController implements Initializable {
 
            // kiểm tra thông tin dã được nhập đầy đủ chưa
            if(validator(lastName) && validator(firstName) && validator(adress) && validator(userName)
-                   && validator(passWord) && validator(email) && validator(date)){
-
+                   && validator(passWord) && validator(email)){
                if(!(isCheckLength(userName,6,16))){
                    ShowAlert.show("user từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
                }
@@ -294,6 +368,8 @@ public class menuAdminController implements Initializable {
                }
                else if(userName.equals(EmployeesStore.getEmployess().getUser())){
                    ShowAlert.show("password không được trùng với username", Alert.AlertType.WARNING);
+               }else if(!validator(date)){
+                   ShowAlert.show("Ngày tháng không hợp lê", Alert.AlertType.WARNING);
                }
                else {
                    String nv = lb_nv.getText();
