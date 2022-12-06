@@ -7,6 +7,8 @@ import com.store.EmployeesStore;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.project.Employess;
@@ -21,8 +23,13 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class menuAdminController implements Initializable {
+    @FXML
+    private Label PriceOut;
+    private double priceout = 0;
     private int id;
     @FXML
     private Label id_other;
@@ -69,6 +76,76 @@ public class menuAdminController implements Initializable {
     @FXML
     private TableColumn<OrderTable,Integer> unit_price_colum;
     private ObservableList<OrderTable> orderDetailList = FXCollections.observableArrayList();
+
+    //tableview tab 1
+    @FXML
+    private TableView<product> table;
+    @FXML
+    private TableColumn<product, Integer> numberColumn;
+    @FXML
+    private TableColumn<product, String > IDcolumn;
+    @FXML
+    private TableColumn<product, String> nameColumn;
+    @FXML
+    private TableColumn<product, Integer> amountColumn;
+    @FXML
+    private TableColumn<product, String> dvColumn;
+    @FXML
+    private TableColumn<product, Double> priceColumn;
+    @FXML
+    private TableColumn<product, Double> thanhTienColumn;
+    @FXML
+    private TableColumn<product, Double> buyColumn;
+    @FXML
+    private TableColumn<product, Date> Dateh;
+
+    private ObservableList<product> productList;
+
+    @FXML
+    private DatePicker Dateta;
+
+    ObservableList<product> proList = FXCollections.observableArrayList();
+
+    //table view thong ke theo ngay
+    @FXML
+    LineChart<String, Number> lineChart;
+    @FXML
+    private TableView<ProfitList> table2;
+    @FXML
+    private TableColumn<ProfitList, java.util.Date> oDay;
+    @FXML
+    private TableColumn<ProfitList, Double> profit;
+
+    ObservableList<ProfitList> profitList = FXCollections.observableArrayList();
+
+    //table view cua tab thong ke theo thang
+    @FXML
+    LineChart<String, Number> lineChartMonth;
+    @FXML
+    private TableView<ProfitListMonth> table3;
+    @FXML
+    private TableColumn<ProfitListMonth, Integer> aMonth;
+    @FXML
+    private TableColumn<ProfitListMonth, Double> profitMonth;
+
+    ObservableList<ProfitListMonth> profitListMonths = FXCollections.observableArrayList();
+
+    //table view cua tab thong ke theo quy
+    @FXML
+    LineChart<String, Number> lineChartQuarter;
+    @FXML
+    private TableView<ProfitQuarter> table4;
+    @FXML
+    private TableColumn<ProfitQuarter, Integer> aQuarter;
+    @FXML
+    private TableColumn<ProfitQuarter, Double> profitQuarter;
+
+    ObservableList<ProfitQuarter> profitQuarters = FXCollections.observableArrayList();
+
+    String query = null;
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -78,6 +155,26 @@ public class menuAdminController implements Initializable {
        id_order_detail.setText(idString);
        initTableView();
        contentTextFieldChange(6);
+        try {
+//            loadTable();
+            loadTable2();
+            loadTable3();
+            loadTable4();
+            setChart();
+            setChartMonth();
+            setChartQuarter();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+//        sumprice(); //Tong bien Price trong table view Thanh Tien hien thi Thanh Tien Bill.priceOut
+
+
+        Dateta.setValue(LocalDate.now());
+
+        BillView.Datetah = Dateta;
+        BillView.usern = lb_user_name.getText();
+//        BillView.priceOut = Double.parseDouble(PriceOut.getText()); //Hien Thi Label Thanh Tien
 
 
     }
@@ -223,4 +320,180 @@ public class menuAdminController implements Initializable {
 
        menuView.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
    }
+
+   //Day la du lieu rieng cua Hieu neu cai kia load khong duoc cu doi table view roi xai khong anh huong den
+    //database trong sql
+    //loadTable cua tab 1
+    public void loadTable() throws SQLException {
+        connection = JDBC.getCnn();
+        refreshtable();
+
+        numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
+        IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("amount"));
+        dvColumn.setCellValueFactory(new PropertyValueFactory<product, String>("dv"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("gia"));
+        thanhTienColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("thanhTien"));
+        Dateh.setCellValueFactory(new PropertyValueFactory<product, Date>("Dateh"));
+    }
+
+    //Day la du lieu rieng cua Hieu neu cai kia load khong duoc cu doi table view roi xai khong anh huong den
+    //database trong sql (co san trong menu-admin-view.fxml).
+    //refreshtable cua tab 1
+    @FXML
+    private void refreshtable() throws SQLException {
+        try {
+            proList.clear();
+            query = "SELECT * FROM testtable";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                proList.add(new product(resultSet.getInt("STT"), resultSet.getString("Mã Sản Phẩm"), resultSet.getString("Tên Sản Phẩm"),
+                        resultSet.getInt("Số lượng"),resultSet.getString("Đơn vị"), resultSet.getDouble("Giá"), resultSet.getDouble("Thành Tiền"),
+                        resultSet.getDate("Date")));
+                table.setItems(proList);
+            }
+            BillView.product = proList;
+        }catch (SQLException ex)
+        {
+            Logger.getLogger(table.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+    //Tinh tong thanh tien cua tab 1
+    public void sumprice()
+    {
+        for(product c:proList)
+        {
+            priceout += c.getGia();
+        }
+        PriceOut.setText(String.valueOf(priceout));
+    }
+
+    //loadTable cua tab thong ke theo ngay
+    public void loadTable2() throws SQLException {
+        connection = JDBC.getCnn();
+        refreshtable2();
+
+        oDay.setCellValueFactory(new PropertyValueFactory<>("oneDay"));
+        profit.setCellValueFactory(new PropertyValueFactory<>("profit"));
+    }
+
+    //refreshtable cua tab thong ke theo ngay
+    @FXML
+    private void refreshtable2() throws SQLException {
+        try {
+            profitList.clear();
+            query = "SELECT * FROM testthongke1";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                profitList.add(new ProfitList(resultSet.getDate("Date"), resultSet.getDouble("Price In")));
+                table2.setItems(profitList);
+            }
+        }catch (SQLException ex)
+        {
+            Logger.getLogger(table.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //Chart cua tab thong ke theo ngay
+    private void setChart()
+    {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        for(ProfitList c : profitList)
+        {
+            series.getData().add(new XYChart.Data<>(c.getOneDay().toString(), c.getProfit()));
+        }
+        series.setName("Profit per day");
+        lineChart.getData().add(series);
+    }
+
+    //loadTable cua tab thong ke theo thang
+    public void loadTable3() throws SQLException {
+        connection = JDBC.getCnn();
+        refreshtable3();
+
+        aMonth.setCellValueFactory(new PropertyValueFactory<>("Month"));
+        profitMonth.setCellValueFactory(new PropertyValueFactory<>("profit"));
+    }
+
+    //refreshtable cua tab thong ke theo thang
+    @FXML
+    private void refreshtable3() throws SQLException {
+        try {
+            profitList.clear();
+            query = "SELECT * FROM testthongke2";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                profitListMonths.add(new ProfitListMonth(resultSet.getInt("Month"), resultSet.getDouble("Profit")));
+                table3.setItems(profitListMonths);
+            }
+        }catch (SQLException ex)
+        {
+            Logger.getLogger(table.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //Chart cua tab thong ke theo thang
+    private void setChartMonth()
+    {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        for(ProfitListMonth c : profitListMonths)
+        {
+            series.getData().add(new XYChart.Data<>(String.valueOf(c.getMonth()), c.getProfit()));
+        }
+        series.setName("Profit per Month");
+        lineChartMonth.getData().add(series);
+    }
+
+    //loadTable cua tab thong ke theo quy
+    public void loadTable4() throws SQLException {
+        connection = JDBC.getCnn();
+        refreshtable4();
+
+        aQuarter.setCellValueFactory(new PropertyValueFactory<>("quarter"));
+        profitQuarter.setCellValueFactory(new PropertyValueFactory<>("profit"));
+    }
+
+    //refreshtable cua tab thong ke theo quy
+    @FXML
+    private void refreshtable4() throws SQLException {
+        try {
+            profitList.clear();
+            query = "SELECT * FROM testthongke3";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                profitQuarters.add(new ProfitQuarter(resultSet.getInt("Quarter"), resultSet.getDouble("Profit")));
+                table4.setItems(profitQuarters);
+            }
+        }catch (SQLException ex)
+        {
+            Logger.getLogger(table.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //Chart cua tab thong ke theo quy
+    private void setChartQuarter()
+    {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        for(ProfitQuarter c : profitQuarters)
+        {
+            series.getData().add(new XYChart.Data<>(String.valueOf(c.getQuarter()), c.getProfit()));
+        }
+        series.setName("Profit per Quarter");
+        lineChartQuarter.getData().add(series);
+    }
 }
