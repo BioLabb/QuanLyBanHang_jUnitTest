@@ -3,7 +3,8 @@ package com.project;
 public class Product {
     private int id;
     private String Name;
-
+    private double price;
+    private int quantity;
     public int getId() {
         return id;
     }
@@ -24,7 +25,6 @@ public class Product {
         System.out.println(price);
         return price;
     }
-
     public void setPrice(double price) {
         this.price = price;
     }
@@ -36,10 +36,6 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-    private double price;
-    private int quantity;
-
     public Product(int id, String name, double price) {
         this.id = id;
         Name = name;

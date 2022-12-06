@@ -44,11 +44,12 @@ public class SignController{
             passwordText.setText(password.getText());
             passwordText.setVisible(true);
             password.setVisible(false);
-            return;
         }
-        password.setText(passwordText.getText());
-        password.setVisible(true);
-        passwordText.setVisible(false);
+        else{
+            password.setText(passwordText.getText());
+            password.setVisible(true);
+            passwordText.setVisible(false);
+        }
     }
 
     public boolean validate()

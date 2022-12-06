@@ -1,8 +1,10 @@
 package com.qlbh;
 
 import com.config.JDBC;
+import com.project.OrderDetails;
 import com.services.EmployessServices;
 import com.services.ProductServices;
+import com.services.OrderDetailsServices;
 import com.store.EmployeesStore;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +15,6 @@ import com.project.Employess;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import com.project.Product;
-import com.project.orderDetails;
-import com.table.OrderTable;
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,16 +59,27 @@ public class menuAdminController implements Initializable {
     @FXML
     private TextField product_quantity;
     @FXML
-    private TableView<orderDetails> order_detail;
+    private Label pay_order_detail;
     @FXML
-    private TableColumn<Product, Integer> product_id_colum;
+    private TextField cus_pay;
     @FXML
-    private TableColumn<Product,Integer> product_name_colum;
+    private Label change;
+
     @FXML
-    private TableColumn<Product,Integer> product_quantity_colum;
+    private TableView<TableOrderDetail> order_detail;
     @FXML
-    private TableColumn<OrderTable,Integer> unit_price_colum;
-    private ObservableList<OrderTable> orderDetailList = FXCollections.observableArrayList();
+    private TableColumn<TableOrderDetail, Integer> stt_colum;
+    @FXML
+    private TableColumn<TableOrderDetail, Integer> product_id_colum;
+    @FXML
+    private TableColumn<TableOrderDetail,String> product_name_colum;
+    @FXML
+    private TableColumn<TableOrderDetail,Integer> product_quantity_colum;
+    @FXML
+    private TableColumn<TableOrderDetail,Integer> unit_price_colum;
+    @FXML
+    private TableColumn<TableOrderDetail,Integer> total_colum;
+    private ObservableList<TableOrderDetail> orderDetailList;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -76,30 +87,56 @@ public class menuAdminController implements Initializable {
         int id = (int) (Math.random()* Math.pow(10,5))+ 9* (int)Math.pow(10,5);
         String idString = String.format("%d",id);
        id_order_detail.setText(idString);
-       initTableView();
        contentTextFieldChange(6);
-
-
+       pay_change();
+        initTableView();
+//       orderDetailList = FXCollections.observableArrayList(
+//               new TableOrderDetail(1,9,"nameProduct",3,18.0,3*18.0),
+//               new TableOrderDetail(1,5,"nameProduct",3,18.0,3*18.0)
+//
+//       );
     }
+
     // -------------BÁN HÀNG-------------
 
     public void initTableView(){
+
+        stt_colum.setCellValueFactory(new PropertyValueFactory<>("stt"));
         product_id_colum.setCellValueFactory(new PropertyValueFactory<>("productID"));
         product_name_colum.setCellValueFactory(new PropertyValueFactory<>("productName"));
         product_quantity_colum.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
-    }
+        unit_price_colum.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
+        total_colum.setCellValueFactory(new PropertyValueFactory<>("total"));
 
+        orderDetailList = FXCollections.observableArrayList();
+
+    }
+    // thêm item vào table
     public void addOrderIntoTable(ActionEvent event){
         int orderId = Integer.parseInt(id_order_detail.getText());
         int productID = Integer.parseInt(id_product.getText());
         String productName = product_name.getText();
-        double orderPrice = Double.parseDouble(product_price.getText());
         int productQuantity = Integer.parseInt(product_quantity.getText());
+        double orderPrice = Double.parseDouble(product_price.getText());
+        double total = productQuantity* orderPrice;
+        TableOrderDetail tableOrderDetail = new TableOrderDetail(orderId,productID,productName,productQuantity,orderPrice,total);
+        //tableOrderDetail.setId(orderDetailList.size()+1);  // sô thứ tự
+        orderDetailList.add(tableOrderDetail);
+        order_detail.setItems(orderDetailList);
 
-        OrderTable orderTable = new OrderTable(orderId,productID,productName,productQuantity, orderPrice, productQuantity*orderPrice);
-        orderDetailList.add(orderTable);
+        pay_order_detail.setText(String.valueOf(totalPay()));
     }
 
+    public void buy(ActionEvent event) throws SQLException, IOException {
+        // đưa đơn hàng vào cơ sở dữ liệu
+        for (TableOrderDetail value: orderDetailList) {
+            Date date = Date.valueOf(LocalDate.now());
+            OrderDetails orderDetails = new OrderDetails(value.getOrderID(),value.getProductID(), value.getProductQuantity(), value.getTotal(),date);
+            OrderDetailsServices.addOrderDetail(orderDetails);
+        }
+
+        menuView.nextPage(event,"bill-view.fxml","Hóa đơn");
+    }
     // Giới hạn ký tự trong textFile
     private void contentTextFieldChange(int length){
         id_product.textProperty().addListener((observableValue, oldValue, newValue) ->{
@@ -120,6 +157,24 @@ public class menuAdminController implements Initializable {
                 }
             }
         });
+    }
+
+    private void pay_change(){
+        cus_pay.textProperty().addListener((observable,oldVal,newVal)->{
+            System.out.println("163: " + Integer.parseInt(cus_pay.getText()));
+            System.out.println("163: " + Double.parseDouble(pay_order_detail.getText()));
+            double moneyOfCus = Double.parseDouble(pay_order_detail.getText()) - Integer.parseInt(cus_pay.getText());
+            System.out.println("165: " + moneyOfCus);
+            change.setText(String.format("%.3f",moneyOfCus));
+        });
+    }
+
+    public double totalPay(){
+        double sum = 0;
+        for(TableOrderDetail tb : orderDetailList){
+            sum+= tb.getTotal();
+        }
+        return sum;
     }
 
 

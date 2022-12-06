@@ -61,16 +61,18 @@ public class BillView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        IDBill.setText(String.valueOf(ID));
-        lbDate.setValue(Datetah.getValue());
-        Name.setText(usern);
-        moneyRecieve.setText(String.valueOf(priceOut));
-        numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
-        IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));
-        amountColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("amount"));
-        dvColumn.setCellValueFactory(new PropertyValueFactory<product, String>("dv"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("gia"));;
-        table.setItems(product);
+//        IDBill.setText(String.valueOf(ID));
+//        lbDate.setValue(Datetah.getValue());
+//        Name.setText(usern);
+//        moneyRecieve.setText(String.valueOf(priceOut));
+//        numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
+//        IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
+//        nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));
+//        amountColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("amount"));
+//        dvColumn.setCellValueFactory(new PropertyValueFactory<product, String>("dv"));
+//        priceColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("gia"));;
+//        table.setItems(product);
+
+
     }
 }
