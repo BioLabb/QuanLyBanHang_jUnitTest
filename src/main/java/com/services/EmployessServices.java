@@ -1,10 +1,9 @@
 package com.services;
 
 import com.config.JDBC;
-import project.Employess;
+import com.project.Employess;
 
 import java.sql.*;
-import java.util.PrimitiveIterator;
 
 public class EmployessServices {
     private static Connection connection;

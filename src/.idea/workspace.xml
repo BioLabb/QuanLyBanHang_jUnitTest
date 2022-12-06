@@ -2,7 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04107efc-8447-40f6-ad12-eea60ce6a2d2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/com/table/OrderTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/../mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/../mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/com/qlbh/SignController.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/qlbh/SignController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/com/qlbh/demo.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/qlbh/demo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/com/qlbh/menuAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/qlbh/menuAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/com/qlbh/menuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/qlbh/menuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/com/qlbh/removeEpmloyeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/qlbh/removeEpmloyeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/com/services/EmployessServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/services/EmployessServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/com/services/ProductServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/services/ProductServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/com/store/EmployeesStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/store/EmployeesStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/project/Employess.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/project/Employess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/project/Orders.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/project/Orders.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/project/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/project/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/project/orderDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/com/project/orderDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/table/OrderTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/resources/com/qlbh/menu-admin-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/main/resources/com/qlbh/menu-admin-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/qlbh/menu-admin-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../target/classes/com/qlbh/menu-admin-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,13 +36,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/WorkSpace/java/QuanLyBanHang_jUnitTest"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/WorkSpace/java/QuanLyBanHang_jUnitTest&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

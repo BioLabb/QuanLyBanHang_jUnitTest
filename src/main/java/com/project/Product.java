@@ -1,4 +1,4 @@
-package project;
+package com.project;
 
 public class Product {
     private int id;

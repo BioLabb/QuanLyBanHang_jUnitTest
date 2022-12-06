@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import project.Employess;
+import com.project.Employess;
 
 import java.io.IOException;
 import java.sql.SQLException;

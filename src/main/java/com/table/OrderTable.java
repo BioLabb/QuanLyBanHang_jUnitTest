@@ -1,29 +1,32 @@
-package table;
+package com.table;
 
 public class OrderTable {
-    private int id;
+    //    private int id;
     int productID;
     private String productName;
     private int productQuantity;
-    private double price;
+    private double productPrice;
     private double total;
 
-    public OrderTable(int id, int productID, String productName, int quantity, double price, double total) {
-        this.id = id;
+    public OrderTable(int productID, int id, String productName, int productQuantity, double price, double total) {
+
         this.productID = productID;
         this.productName = productName;
-        this.productQuantity = quantity;
-        this.price = price;
+        this.productQuantity = productQuantity;
+        this.productPrice = price;
         this.total = total;
     }
 
-    public int getId() {
-        return id;
+    public OrderTable() {
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public int getProductID() {
         return productID;
@@ -49,12 +52,12 @@ public class OrderTable {
         this.productQuantity = productQuantity;
     }
 
-    public double getPrice() {
-        return price;
+    public double getProductPrice() {
+        return productPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
     }
 
     public double getTotal() {

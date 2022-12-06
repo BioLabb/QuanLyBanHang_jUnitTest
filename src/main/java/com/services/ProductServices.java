@@ -1,7 +1,7 @@
 package com.services;
 
 import com.config.JDBC;
-import project.Product;
+import com.project.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

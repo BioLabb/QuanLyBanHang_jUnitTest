@@ -1,4 +1,4 @@
-package project;
+package com.project;
 
 import java.util.Date;
 

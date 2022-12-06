@@ -65,7 +65,7 @@
                                          </Label>
                                          <TextField fx:id="id_product" layoutX="112.0" layoutY="47.0" prefHeight="23.0" prefWidth="149.0" />
                                          <TextField fx:id="product_quantity" layoutX="113.0" layoutY="157.0" prefHeight="23.0" prefWidth="149.0" />
-                                         <Button layoutX="138.0" layoutY="191.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Thêm" />
+                                         <Button layoutX="138.0" layoutY="191.0" mnemonicParsing="false" onAction="#addOrderIntoTable" prefHeight="25.0" prefWidth="70.0" text="Thêm" />
                               <Label layoutX="-1.0" layoutY="84.0" text="Tên sản phẩm">
                                  <font>
                                     <Font size="14.0" />
@@ -117,33 +117,32 @@
                                      </children>
                                  </Pane>
                                  <Separator layoutX="354.0" layoutY="13.0" orientation="VERTICAL" prefHeight="172.0" prefWidth="4.0" />
-                                 <TableView fx:id="table" layoutX="18.0" layoutY="239.0" prefHeight="219.0" prefWidth="662.0">
-                                     <columns>
-                                         <TableColumn fx:id="numberColumn" prefWidth="48.800048828125" text="STT" />
-                                         <TableColumn fx:id="IDcolumn" prefWidth="101.59996032714844" text="Mã sản phẩm" />
-                                         <TableColumn fx:id="nameColumn" prefWidth="94.39994812011719" text="Tên sản phẩm" />
-                                         <TableColumn fx:id="amountColumn" prefWidth="72.800048828125" text="Số lượng" />
-                                         <TableColumn fx:id="dvColumn" prefWidth="68.79998779296875" text="Đơn vị" />
-                                         <TableColumn fx:id="priceColumn" prefWidth="73.5999755859375" text="Giá" />
-                                         <TableColumn fx:id="thanhTienColumn" prefWidth="70.0" text="Thành tiền" />
-                              <TableColumn fx:id="Dateh" prefWidth="116.0" text="Date" />
-
-<!--                                 <TableView fx:id="order_detail" layoutX="18.0" layoutY="239.0" prefHeight="219.0" prefWidth="632.0">-->
+<!--<<<<<<< HEAD-->
+<!--                                 <TableView fx:id="table" layoutX="18.0" layoutY="239.0" prefHeight="219.0" prefWidth="632.0">-->
 <!--                                     <columns>-->
-<!--                                         <TableColumn prefWidth="48.800048828125" text="STT" />-->
-<!--                                         <TableColumn fx:id="product_id_colum" prefWidth="101.59996032714844" text="Mã sản phẩm" />-->
-<!--                                         <TableColumn fx:id="product_name_colum" prefWidth="94.39994812011719" text="Tên sản phẩm" />-->
-<!--                                         <TableColumn fx:id="product_quantity_colum" prefWidth="72.800048828125" text="Số lượng" />-->
-<!--                                         <TableColumn prefWidth="68.79998779296875" text="Đơn vị" />-->
-<!--                                         <TableColumn fx:id="unit_price_colum" prefWidth="73.5999755859375" text="Giá" />-->
-<!--                                         <TableColumn prefWidth="100.79998779296875" text="Thành tiền" />-->
-<!--                                         <TableColumn prefWidth="64.800048828125" text="Mua" />-->
-
+<!--                                         <TableColumn fx:id="numberColumn" prefWidth="48.800048828125" text="STT" />-->
+<!--                                         <TableColumn fx:id="IDcolumn" prefWidth="101.59996032714844" text="Mã sản phẩm" />-->
+<!--                                         <TableColumn fx:id="nameColumn" prefWidth="94.39994812011719" text="Tên sản phẩm" />-->
+<!--                                         <TableColumn fx:id="amountColumn" prefWidth="72.800048828125" text="Số lượng" />-->
+<!--                                         <TableColumn fx:id="dvColumn" prefWidth="68.79998779296875" text="Đơn vị" />-->
+<!--                                         <TableColumn fx:id="priceColumn" prefWidth="73.5999755859375" text="Giá" />-->
+<!--                                         <TableColumn fx:id="thanhTienColumn" prefWidth="100.79998779296875" text="Thành tiền" />-->
+<!--                                         <TableColumn fx:id="buyColumn" prefWidth="64.800048828125" text="Mua" />-->
+<!--=======-->
+                                 <TableView fx:id="order_detail" layoutX="18.0" layoutY="239.0" prefHeight="219.0" prefWidth="632.0">
+                                     <columns>
+                                         <TableColumn prefWidth="48.800048828125" text="STT" />
+                                         <TableColumn fx:id="product_id_colum" prefWidth="101.59996032714844" text="Mã sản phẩm" />
+                                         <TableColumn fx:id="product_name_colum" prefWidth="94.39994812011719" text="Tên sản phẩm" />
+                                         <TableColumn fx:id="product_quantity_colum" prefWidth="72.800048828125" text="Số lượng" />
+                                         <TableColumn prefWidth="68.79998779296875" text="Đơn vị" />
+                                         <TableColumn fx:id="unit_price_colum" prefWidth="73.5999755859375" text="Giá" />
+                                         <TableColumn prefWidth="100.79998779296875" text="Thành tiền" />
+                                         <TableColumn prefWidth="64.800048828125" text="Mua" />
+<!--&gt;>>>>>> 910a4cc838cc43f8763a3dee9dd7336b1259f656-->
                                      </columns>
                                  </TableView>
                         <DatePicker fx:id="Dateta" layoutX="464.0" layoutY="198.0" />
-                        <Label layoutX="314.0" layoutY="213.0" text="Thành Tiền:" />
-                        <Label fx:id="PriceOut" layoutX="384.0" layoutY="215.0" text="Label" />
                              </children>
                   </Pane>
                      </content>

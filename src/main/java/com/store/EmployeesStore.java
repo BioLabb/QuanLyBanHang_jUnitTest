@@ -1,6 +1,6 @@
 package com.store;
 
-import project.Employess;
+import com.project.Employess;
 
 public class EmployeesStore {
     private static Employess employess;
