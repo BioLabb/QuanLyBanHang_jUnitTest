@@ -1,5 +1,7 @@
 package com.qlbh;
 
+import java.util.Date;
+
 public class product {
     private int Number;
     private String ID;
@@ -8,14 +10,21 @@ public class product {
     private String dv;
     private double gia;
     private double thanhTien;
-    private double mua;
+
+    private Date Dateh;
+
+    public Date getDateh() {
+        return Dateh;
+    }
+
+    public void setDateh(Date dateh) {
+        Dateh = dateh;
+    }
 
     public product() {
     }
 
-
-
-    public product(int number, String ID, String nameProduct, int amount, String dv, double gia, double thanhTien, double mua) {
+    public product(int number, String ID, String nameProduct, int amount, String dv, double gia, double thanhTien, Date dateh) {
         Number = number;
         this.ID = ID;
         this.nameProduct = nameProduct;
@@ -23,7 +32,7 @@ public class product {
         this.dv = dv;
         this.gia = gia;
         this.thanhTien = thanhTien;
-        this.mua = mua;
+        Dateh = dateh;
     }
 
     public int getNumber() {
@@ -72,14 +81,6 @@ public class product {
 
     public void setGia(double gia) {
         this.gia = gia;
-    }
-
-    public double getMua() {
-        return mua;
-    }
-
-    public void setMua(double mua) {
-        this.mua = mua;
     }
 
     public double getThanhTien() {

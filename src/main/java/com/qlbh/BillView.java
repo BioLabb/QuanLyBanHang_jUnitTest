@@ -22,7 +22,9 @@ import java.util.ResourceBundle;
 
 public class BillView implements Initializable {
     public static ObservableList<product> product;
+    public static double priceOut;
     public static DatePicker Datetah;
+    public static String usern;
     public static int num;
     private static int count = 0;
     private int ID = ++count;
@@ -61,6 +63,8 @@ public class BillView implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         IDBill.setText(String.valueOf(ID));
         lbDate.setValue(Datetah.getValue());
+        Name.setText(usern);
+        moneyRecieve.setText(String.valueOf(priceOut));
         numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
         IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));

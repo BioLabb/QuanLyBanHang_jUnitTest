@@ -4,10 +4,9 @@ import com.config.JDBC;
 import com.services.EmployessServices;
 import com.services.ProductServices;
 import com.store.EmployeesStore;
-<<<<<<< HEAD
+
 import javafx.beans.value.ObservableValue;
-=======
->>>>>>> 910a4cc838cc43f8763a3dee9dd7336b1259f656
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -26,8 +25,13 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class menuAdminController implements Initializable {
+    @FXML
+    private Label PriceOut;
+    private double priceout = 0;
     private int id;
     @FXML
     private Label id_other;
@@ -72,7 +76,6 @@ public class menuAdminController implements Initializable {
     @FXML
     private TableColumn<Product,Integer> product_quantity_colum;
     @FXML
-<<<<<<< HEAD
     private TableColumn<Product,Integer> unit_price_colum;
     private ObservableValue<orderDetails> orderDetailList;
     @FXML
@@ -95,49 +98,44 @@ public class menuAdminController implements Initializable {
     private TableColumn<product, Double> thanhTienColumn;
     @FXML
     private TableColumn<product, Double> buyColumn;
+    @FXML
+    private TableColumn<product, Date> Dateh;
 
     private ObservableList<product> productList;
 
     @FXML
     private DatePicker Dateta;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-=======
-    private TableColumn<OrderTable,Integer> unit_price_colum;
-    private ObservableList<OrderTable> orderDetailList = FXCollections.observableArrayList();
+    ObservableList<product> proList = FXCollections.observableArrayList();
+    String query = null;
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    product product = null;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // tạo mã đơn hàng
->>>>>>> 910a4cc838cc43f8763a3dee9dd7336b1259f656
         int id = (int) (Math.random()* Math.pow(10,5))+ 9* (int)Math.pow(10,5);
         String idString = String.format("%d",id);
-       id_order_detail.setText(idString);
-       initTableView();
-       contentTextFieldChange(6);
+//       id_order_detail.setText(idString);
+//       initTableView();
+//       contentTextFieldChange(6);
+        try {
+            loadTable();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        sumprice();
 
 
-        productList = FXCollections.observableArrayList(
-                new product(1, "ML001", "May Lanh", 3, "Chiec", 3500, 3500, 3500),
-                new product(2, "ML002", "May Lanh", 3, "Chiec", 3500, 3500, 3500),
-                new product(3, "ML003", "May Lanh", 3, "Chiec", 3500, 3500, 3500),
-                new product(4, "ML004", "May Lanh", 3, "Chiec", 3500, 3500, 3500)
-        );
-        numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
-        IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));
-        amountColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("amount"));
-        dvColumn.setCellValueFactory(new PropertyValueFactory<product, String>("dv"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("gia"));
-        thanhTienColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("thanhTien"));
-        buyColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("mua"));
-        table.setItems(productList);
-
-        BillView.product = productList;
         Dateta.setValue(LocalDate.now());
 
         BillView.Datetah = Dateta;
+        BillView.usern = lb_user_name.getText();
+        BillView.priceOut = Double.parseDouble(PriceOut.getText());
 
     }
     // -------------BÁN HÀNG-------------
@@ -148,16 +146,60 @@ public class menuAdminController implements Initializable {
         product_quantity_colum.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
     }
 
-    public void addOrderIntoTable(ActionEvent event){
-        int orderId = Integer.parseInt(id_order_detail.getText());
-        int productID = Integer.parseInt(id_product.getText());
-        String productName = product_name.getText();
-        double orderPrice = Double.parseDouble(product_price.getText());
-        int productQuantity = Integer.parseInt(product_quantity.getText());
+    public void loadTable() throws SQLException {
+        connection = JDBC.getCnn();
+        refreshtable();
 
-        OrderTable orderTable = new OrderTable(orderId,productID,productName,productQuantity, orderPrice, productQuantity*orderPrice);
-        orderDetailList.add(orderTable);
+        numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
+        IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("amount"));
+        dvColumn.setCellValueFactory(new PropertyValueFactory<product, String>("dv"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("gia"));
+        thanhTienColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("thanhTien"));
+        Dateh.setCellValueFactory(new PropertyValueFactory<product, Date>("Dateh"));
     }
+
+    @FXML
+    private void refreshtable() throws SQLException {
+        try {
+            proList.clear();
+            query = "SELECT * FROM testtable";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                proList.add(new product(resultSet.getInt("STT"), resultSet.getString("Mã Sản Phẩm"), resultSet.getString("Tên Sản Phẩm"),
+                        resultSet.getInt("Số lượng"),resultSet.getString("Đơn vị"), resultSet.getDouble("Giá"), resultSet.getDouble("Thành Tiền"),
+                        resultSet.getDate("Date")));
+                table.setItems(proList);
+            }
+            BillView.product = proList;
+        }catch (SQLException ex)
+        {
+            Logger.getLogger(table.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void sumprice()
+    {
+        for(product c:proList)
+        {
+            priceout += c.getGia();
+        }
+        PriceOut.setText(String.valueOf(priceout));
+    }
+//    public void addOrderIntoTable(ActionEvent event){
+//        int orderId = Integer.parseInt(id_order_detail.getText());
+//        int productID = Integer.parseInt(id_product.getText());
+//        String productName = product_name.getText();
+//        double orderPrice = Double.parseDouble(product_price.getText());
+//        int productQuantity = Integer.parseInt(product_quantity.getText());
+//
+//        OrderTable orderTable = new OrderTable(orderId,productID,productName,productQuantity, orderPrice, productQuantity*orderPrice);
+//        orderDetailList.add(orderTable);
+//    }
 
     // Giới hạn ký tự trong textFile
     private void contentTextFieldChange(int length){
