@@ -113,7 +113,6 @@
                                              </font>
                                          </Label>
                                          <Button layoutX="211.0" layoutY="137.0" mnemonicParsing="false" onAction="#buy" prefHeight="25.0" prefWidth="82.0" text="Thanh toán" />
-                                         <Button layoutX="107.0" layoutY="137.0" mnemonicParsing="false" onAction="#bill" prefHeight="25.0" prefWidth="70.0" text="In" />
                                      </children>
                                  </Pane>
                                  <Separator layoutX="354.0" layoutY="13.0" orientation="VERTICAL" prefHeight="172.0" prefWidth="4.0" />

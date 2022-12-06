@@ -6,6 +6,7 @@ import com.services.EmployessServices;
 import com.services.ProductServices;
 import com.services.OrderDetailsServices;
 import com.store.EmployeesStore;
+import com.store.TableOrderDetailListStore;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -116,20 +117,22 @@ public class menuAdminController implements Initializable {
         int orderId = Integer.parseInt(id_order_detail.getText());
         int productID = Integer.parseInt(id_product.getText());
         String productName = product_name.getText();
+
         int productQuantity = Integer.parseInt(product_quantity.getText());
         double orderPrice = Double.parseDouble(product_price.getText());
         double total = productQuantity* orderPrice;
         TableOrderDetail tableOrderDetail = new TableOrderDetail(orderId,productID,productName,productQuantity,orderPrice,total);
         //tableOrderDetail.setId(orderDetailList.size()+1);  // sô thứ tự
-        orderDetailList.add(tableOrderDetail);
-        order_detail.setItems(orderDetailList);
+//        orderDetailList.add(tableOrderDetail);
+        TableOrderDetailListStore.add(tableOrderDetail);
+        order_detail.setItems(TableOrderDetailListStore.getTableOrderDetailsList());
 
         pay_order_detail.setText(String.valueOf(totalPay()));
     }
 
     public void buy(ActionEvent event) throws SQLException, IOException {
         // đưa đơn hàng vào cơ sở dữ liệu
-        for (TableOrderDetail value: orderDetailList) {
+        for (TableOrderDetail value: TableOrderDetailListStore.getTableOrderDetailsList()) {
             Date date = Date.valueOf(LocalDate.now());
             OrderDetails orderDetails = new OrderDetails(value.getOrderID(),value.getProductID(), value.getProductQuantity(), value.getTotal(),date);
             OrderDetailsServices.addOrderDetail(orderDetails);
@@ -161,17 +164,19 @@ public class menuAdminController implements Initializable {
 
     private void pay_change(){
         cus_pay.textProperty().addListener((observable,oldVal,newVal)->{
-            System.out.println("163: " + Integer.parseInt(cus_pay.getText()));
-            System.out.println("163: " + Double.parseDouble(pay_order_detail.getText()));
-            double moneyOfCus = Double.parseDouble(pay_order_detail.getText()) - Integer.parseInt(cus_pay.getText());
-            System.out.println("165: " + moneyOfCus);
-            change.setText(String.format("%.3f",moneyOfCus));
+            double pay = Double.parseDouble(pay_order_detail.getText());
+            double cus_money = Double.parseDouble(cus_pay.getText());
+            double moneyOfCus;
+            if(cus_money > pay){
+                moneyOfCus = cus_money - pay;
+                change.setText(String.format("%.3f",moneyOfCus));
+            }
         });
     }
 
     public double totalPay(){
         double sum = 0;
-        for(TableOrderDetail tb : orderDetailList){
+        for(TableOrderDetail tb : TableOrderDetailListStore.getTableOrderDetailsList()){
             sum+= tb.getTotal();
         }
         return sum;
