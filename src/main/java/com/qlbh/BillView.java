@@ -1,21 +1,16 @@
 package com.qlbh;
 
-import com.store.TableOrderDetailListStore;
-import javafx.collections.FXCollections;
+import com.store.EmployeesStore;
+import com.store.TableOrderDetailStore;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +26,7 @@ public class BillView implements Initializable {
     private static int count = 0;
     private int ID = ++count;
     @FXML
-    private DatePicker lbDate;
+    private Label lbDate;
     @FXML
     private Label moneyRecieve;
     @FXML
@@ -77,6 +72,13 @@ public class BillView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        lbDate.setText(String.valueOf(TableOrderDetailStore.getDate()));
+        IDBill.setText(String.valueOf(TableOrderDetailStore.getId()));
+        moneyRecieve.setText(String.valueOf(TableOrderDetailStore.getPay()));
+        moneyBack.setText(String.valueOf(TableOrderDetailStore.getChange()));
+        Name.setText(String.format("%s %s",EmployeesStore.getEmployess().getFirstName(), EmployeesStore.getEmployess().getLastName()));
+
+
         stt_colum.setCellValueFactory(new PropertyValueFactory<>("stt"));
         product_id_colum.setCellValueFactory(new PropertyValueFactory<>("productID"));
         product_name_colum.setCellValueFactory(new PropertyValueFactory<>("productName"));
@@ -84,8 +86,12 @@ public class BillView implements Initializable {
         unit_price_colum.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
         total_colum.setCellValueFactory(new PropertyValueFactory<>("total"));
 
-        order_detail.setItems(TableOrderDetailListStore.getTableOrderDetailsList());
+        order_detail.setItems(TableOrderDetailStore.getTableOrderDetailsList());
 
+
+    }
+
+    public void print(ActionEvent event){
 
     }
 }
