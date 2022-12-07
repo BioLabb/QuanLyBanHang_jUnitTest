@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlbh.menuAdminController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlbh.menuAdminController">
      <children>
          <Pane prefHeight="29.0" prefWidth="735.0">
              <children>
@@ -223,6 +223,7 @@
                                          <TableColumn fx:id="profit" minWidth="0.0" prefWidth="108.0" text="Profit" />
                                      </columns>
                                  </TableView>
+                        <Button layoutX="288.0" layoutY="364.0" mnemonicParsing="false" onAction="#addToMonth" text="Add" />
                              </children>
                   </AnchorPane>
                      </content>

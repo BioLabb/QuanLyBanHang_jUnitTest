@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class menuAdminController implements Initializable {
+
     @FXML
     private Label PriceOut;
     private double priceout = 0;
@@ -109,6 +110,7 @@ public class menuAdminController implements Initializable {
     ObservableList<product> proList = FXCollections.observableArrayList();
 
     //table view thong ke theo ngay
+    private double profitDay;
     @FXML
     LineChart<String, Number> lineChart;
     @FXML
@@ -435,7 +437,7 @@ public class menuAdminController implements Initializable {
             BillView.product = proList;
         }catch (SQLException ex)
         {
-            Logger.getLogger(table.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -475,7 +477,7 @@ public class menuAdminController implements Initializable {
             }
         }catch (SQLException ex)
         {
-            Logger.getLogger(table.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -504,7 +506,7 @@ public class menuAdminController implements Initializable {
     @FXML
     private void refreshtable3() throws SQLException {
         try {
-            profitList.clear();
+            profitListMonths.clear();
             query = "SELECT * FROM testthongke2";
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
@@ -516,7 +518,7 @@ public class menuAdminController implements Initializable {
             }
         }catch (SQLException ex)
         {
-            Logger.getLogger(table.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -545,7 +547,7 @@ public class menuAdminController implements Initializable {
     @FXML
     private void refreshtable4() throws SQLException {
         try {
-            profitList.clear();
+            profitQuarters.clear();
             query = "SELECT * FROM testthongke3";
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
@@ -557,7 +559,7 @@ public class menuAdminController implements Initializable {
             }
         }catch (SQLException ex)
         {
-            Logger.getLogger(table.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -572,4 +574,35 @@ public class menuAdminController implements Initializable {
         series.setName("Profit per Quarter");
         lineChartQuarter.getData().add(series);
     }
+
+    @FXML
+    public void addToMonth(ActionEvent e) throws SQLException {
+        ProfitListMonth profitM = new ProfitListMonth();
+        for(ProfitList c : profitList)
+        {
+            profitM.setMonth(c.getOneDay().getMonth()+1);
+            profitDay += c.getProfit();
+        }
+
+        profitM.setProfit(profitDay);
+        profitListMonths.add(profitM);
+        try{
+            addToTableMonth(profitM);
+            ShowAlert.show("Add successful !", Alert.AlertType.INFORMATION);
+        } catch (SQLException ex) {
+            ShowAlert.show("Add failed !", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    @FXML
+
+   public void addToTableMonth(ProfitListMonth m) throws SQLException {
+       connection = JDBC.getCnn();
+       connection.setAutoCommit(false);
+       preparedStatement = connection.prepareStatement("INSERT INTO testthongke2(Month, Profit) VALUES(?, ?)");
+       preparedStatement.setInt(1, m.getMonth());
+       preparedStatement.setDouble(2, m.getProfit());
+       preparedStatement.executeUpdate();
+       connection.commit();
+   }
 }
