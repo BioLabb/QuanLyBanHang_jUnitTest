@@ -210,6 +210,8 @@
                      <content>
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                              <children>
+                        <Button fx:id="btnMonthEn" layoutX="321.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxEnable1" text="Month" />
+                        <Button fx:id="btnQuarterEn" layoutX="387.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxQuarterEnable1" text="Quarter" />
                                  <LineChart fx:id="lineChart" layoutX="306.0" layoutY="34.0" prefHeight="313.0" prefWidth="348.0">
                                      <xAxis>
                                          <CategoryAxis label="DAY" side="BOTTOM" />
@@ -224,12 +226,12 @@
                                          <TableColumn fx:id="profit" minWidth="0.0" prefWidth="108.0" text="Profit" />
                                      </columns>
                                  </TableView>
-                        <Button layoutX="14.0" layoutY="364.0" mnemonicParsing="false" onAction="#addToMonth" text="Add To Month" />
+                        <Button fx:id="btnAddMonth" layoutX="14.0" layoutY="364.0" mnemonicParsing="false" onAction="#addToMonth" text="Add To Month" />
                         <ComboBox fx:id="comboBox" layoutX="14.0" layoutY="14.0" onAction="#comboBoxChanged" prefHeight="25.0" prefWidth="133.0" promptText="Month" />
-                        <Button layoutX="191.0" layoutY="364.0" mnemonicParsing="false" onAction="#addToQuarter" text="Add to Quarter" />
+                        <Button fx:id="btnAddQuarter" layoutX="191.0" layoutY="364.0" mnemonicParsing="false" onAction="#addToQuarter" text="Add to Quarter" />
                         <ComboBox fx:id="comboBoxQuarter" layoutX="151.0" layoutY="14.0" onAction="#comboBoxQuarterChange" prefWidth="150.0" promptText="Quarter" />
-                        <Button layoutX="321.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxEnable" text="Month" />
-                        <Button layoutX="387.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxQuarterEnable" text="Quarter" />
+                        <Button fx:id="btnMonth" layoutX="321.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxEnable" text="Month" />
+                        <Button fx:id="btnQuarter" layoutX="387.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxQuarterEnable" text="Quarter" />
                              </children>
                   </AnchorPane>
                      </content>

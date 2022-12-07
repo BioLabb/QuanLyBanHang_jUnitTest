@@ -118,6 +118,21 @@ public class menuAdminController implements Initializable {
     public ComboBox<Integer> comboBoxQuarter;
 
     ObservableList<Integer> listQuarter = FXCollections.observableArrayList(1, 2, 3 ,4);
+
+    @FXML
+    private Button btnMonth;
+
+    @FXML
+    private Button btnQuarter;
+    @FXML
+    private Button btnQuarterEn;
+    @FXML
+    private Button btnMonthEn;
+    @FXML
+    private Button btnAddMonth;
+    @FXML
+    private Button btnAddQuarter;
+
     private double profitDay;
     @FXML
     LineChart<String, Number> lineChart;
@@ -609,14 +624,41 @@ public class menuAdminController implements Initializable {
     {
         comboBoxQuarter.setDisable(true);
         comboBox.setDisable(false);
+        btnQuarter.setDisable(true);
+        btnAddQuarter.setDisable(true);
+        btnMonth.setVisible(false);
+        btnQuarterEn.setDisable(true);
+    }
+
+    @FXML
+    public void comboBoxEnable1(ActionEvent e)
+    {
+        btnQuarterEn.setDisable(false);
+        btnMonth.setVisible(true);
+        comboBoxQuarter.setDisable(false);
+        btnQuarter.setDisable(false);
+        btnAddQuarter.setDisable(false);
     }
 
     //ham hien thi comboBox Quarter
     @FXML
     public void comboBoxQuarterEnable(ActionEvent e)
     {
+        btnQuarter.setVisible(false);
+        btnMonthEn.setDisable(true);
         comboBox.setDisable(true);
         comboBoxQuarter.setDisable(false);
+        btnMonth.setDisable(true);
+        btnAddMonth.setDisable(true);
+    }
+
+    public void comboBoxQuarterEnable1(ActionEvent e)
+    {
+        btnMonthEn.setDisable(false);
+        btnQuarter.setVisible(true);
+        comboBox.setDisable(false);
+        btnMonth.setDisable(false);
+        btnAddMonth.setDisable(false);
     }
     //loadTable cua tab thong ke theo thang
     public void loadTable3() throws SQLException {
@@ -717,6 +759,8 @@ public class menuAdminController implements Initializable {
         } catch (SQLException ex) {
             ShowAlert.show("Add failed !", Alert.AlertType.INFORMATION);
         }
+        btnQuarter.setDisable(false);
+        btnAddQuarter.setDisable(false);
     }
 
     @FXML
@@ -761,6 +805,8 @@ public class menuAdminController implements Initializable {
         } catch (SQLException ex) {
             ShowAlert.show("Add failed !", Alert.AlertType.INFORMATION);
         }
+        btnMonth.setDisable(false);
+        btnAddMonth.setDisable(false);
     }
 
 
