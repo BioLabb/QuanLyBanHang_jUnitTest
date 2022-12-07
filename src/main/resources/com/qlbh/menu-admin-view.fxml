@@ -4,6 +4,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlbh.menuAdminController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlbh.menuAdminController">
      <children>
          <Pane prefHeight="29.0" prefWidth="735.0">
              <children>
@@ -223,7 +224,12 @@
                                          <TableColumn fx:id="profit" minWidth="0.0" prefWidth="108.0" text="Profit" />
                                      </columns>
                                  </TableView>
-                        <Button layoutX="288.0" layoutY="364.0" mnemonicParsing="false" onAction="#addToMonth" text="Add" />
+                        <Button layoutX="14.0" layoutY="364.0" mnemonicParsing="false" onAction="#addToMonth" text="Add To Month" />
+                        <ComboBox fx:id="comboBox" layoutX="14.0" layoutY="14.0" onAction="#comboBoxChanged" prefHeight="25.0" prefWidth="133.0" promptText="Month" />
+                        <Button layoutX="191.0" layoutY="364.0" mnemonicParsing="false" onAction="#addToQuarter" text="Add to Quarter" />
+                        <ComboBox fx:id="comboBoxQuarter" layoutX="151.0" layoutY="14.0" onAction="#comboBoxQuarterChange" prefWidth="150.0" promptText="Quarter" />
+                        <Button layoutX="321.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxEnable" text="Month" />
+                        <Button layoutX="387.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxQuarterEnable" text="Quarter" />
                              </children>
                   </AnchorPane>
                      </content>

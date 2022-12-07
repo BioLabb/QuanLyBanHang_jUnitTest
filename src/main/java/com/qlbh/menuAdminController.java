@@ -110,6 +110,14 @@ public class menuAdminController implements Initializable {
     ObservableList<product> proList = FXCollections.observableArrayList();
 
     //table view thong ke theo ngay
+    @FXML
+    public ComboBox<Integer> comboBox;
+    ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+
+    @FXML
+    public ComboBox<Integer> comboBoxQuarter;
+
+    ObservableList<Integer> listQuarter = FXCollections.observableArrayList(1, 2, 3 ,4);
     private double profitDay;
     @FXML
     LineChart<String, Number> lineChart;
@@ -162,7 +170,7 @@ public class menuAdminController implements Initializable {
     private TableColumn<TableOrderDetail,Integer> unit_price_colum;
     @FXML
     private TableColumn<TableOrderDetail,Integer> total_colum;
-    private ObservableList<TableOrderDetail> orderDetailList;
+//    private ObservableList<TableOrderDetail> orderDetailList;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -181,12 +189,12 @@ public class menuAdminController implements Initializable {
        String idString = String.format("%d",id);
        id_order_detail.setText(idString);
        contentTextFieldChange(6);
+       comboBox.setItems(list);
+       comboBoxQuarter.setItems(listQuarter);
         try {
 //            loadTable();
-            loadTable2();
             loadTable3();
             loadTable4();
-            setChart();
             setChartMonth();
             setChartQuarter();
         } catch (SQLException e) {
@@ -402,55 +410,55 @@ public class menuAdminController implements Initializable {
    //Day la du lieu rieng cua Hieu neu cai kia load khong duoc cu doi table view roi xai khong anh huong den
     //database trong sql
     //loadTable cua tab 1
-    public void loadTable() throws SQLException {
-        connection = JDBC.getCnn();
-        refreshtable();
-
-        numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
-        IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));
-        amountColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("amount"));
-        dvColumn.setCellValueFactory(new PropertyValueFactory<product, String>("dv"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("gia"));
-        thanhTienColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("thanhTien"));
-        Dateh.setCellValueFactory(new PropertyValueFactory<product, Date>("Dateh"));
-    }
+//    public void loadTable() throws SQLException {
+//        connection = JDBC.getCnn();
+//        refreshtable();
+//
+//        numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
+//        IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
+//        nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));
+//        amountColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("amount"));
+//        dvColumn.setCellValueFactory(new PropertyValueFactory<product, String>("dv"));
+//        priceColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("gia"));
+//        thanhTienColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("thanhTien"));
+//        Dateh.setCellValueFactory(new PropertyValueFactory<product, Date>("Dateh"));
+//    }
 
     //Day la du lieu rieng cua Hieu neu cai kia load khong duoc cu doi table view roi xai khong anh huong den
     //database trong sql (co san trong menu-admin-view.fxml).
     //refreshtable cua tab 1
-    @FXML
-    private void refreshtable() throws SQLException {
-        try {
-            proList.clear();
-            query = "SELECT * FROM testtable";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                proList.add(new product(resultSet.getInt("STT"), resultSet.getString("Mã Sản Phẩm"), resultSet.getString("Tên Sản Phẩm"),
-                        resultSet.getInt("Số lượng"),resultSet.getString("Đơn vị"), resultSet.getDouble("Giá"), resultSet.getDouble("Thành Tiền"),
-                        resultSet.getDate("Date")));
-                table.setItems(proList);
-            }
-            BillView.product = proList;
-        }catch (SQLException ex)
-        {
-            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    @FXML
+//    private void refreshtable() throws SQLException {
+//        try {
+//            proList.clear();
+//            query = "SELECT * FROM testtable";
+//            preparedStatement = connection.prepareStatement(query);
+//            resultSet = preparedStatement.executeQuery();
+//
+//            while (resultSet.next())
+//            {
+//                proList.add(new product(resultSet.getInt("STT"), resultSet.getString("Mã Sản Phẩm"), resultSet.getString("Tên Sản Phẩm"),
+//                        resultSet.getInt("Số lượng"),resultSet.getString("Đơn vị"), resultSet.getDouble("Giá"), resultSet.getDouble("Thành Tiền"),
+//                        resultSet.getDate("Date")));
+//                table.setItems(proList);
+//            }
+//            BillView.product = proList;
+//        }catch (SQLException ex)
+//        {
+//            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
 
     //Tinh tong thanh tien cua tab 1
-    public void sumprice()
-    {
-        for(product c:proList)
-        {
-            priceout += c.getGia();
-        }
-        PriceOut.setText(String.valueOf(priceout));
-    }
+//    public void sumprice()
+//    {
+//        for(product c:proList)
+//        {
+//            priceout += c.getGia();
+//        }
+//        PriceOut.setText(String.valueOf(priceout));
+//    }
 
     //loadTable cua tab thong ke theo ngay
     public void loadTable2() throws SQLException {
@@ -461,18 +469,62 @@ public class menuAdminController implements Initializable {
         profit.setCellValueFactory(new PropertyValueFactory<>("profit"));
     }
 
+    public void loadTableQuarter() throws SQLException {
+        connection = JDBC.getCnn();
+        refreshtableQuarter();
+
+        oDay.setCellValueFactory(new PropertyValueFactory<>("oneDay"));
+        profit.setCellValueFactory(new PropertyValueFactory<>("profit"));
+    }
+
     //refreshtable cua tab thong ke theo ngay
     @FXML
     private void refreshtable2() throws SQLException {
         try {
             profitList.clear();
-            query = "SELECT * FROM testthongke1";
+            if(comboBox.getValue() == 1) {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 1";
+            } else if(comboBox.getValue() == 2)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 2";
+            }else if(comboBox.getValue() == 3)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 3";
+            }else if(comboBox.getValue() == 4)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 4";
+            }else if(comboBox.getValue() == 5)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 5";
+            }else if(comboBox.getValue() == 6)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 6";
+            }else if(comboBox.getValue() == 7)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 7";
+            }else if(comboBox.getValue() == 8)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 8";
+            }else if(comboBox.getValue() == 9)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 9";
+            }else if(comboBox.getValue() == 10)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 10";
+            }else if(comboBox.getValue() == 11)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 11";
+            }else if(comboBox.getValue() == 12)
+            {
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 12";
+            }
+
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next())
             {
-                profitList.add(new ProfitList(resultSet.getDate("Date"), resultSet.getDouble("Price In")));
+                profitList.add(new ProfitList(resultSet.getDate("date_allocated"), resultSet.getDouble("unit_price")));
                 table2.setItems(profitList);
             }
         }catch (SQLException ex)
@@ -481,18 +533,91 @@ public class menuAdminController implements Initializable {
         }
     }
 
+    //Chọn theo comboBox theo ngay
+
+
     //Chart cua tab thong ke theo ngay
     private void setChart()
     {
+        lineChart.getData().clear();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
+
         for(ProfitList c : profitList)
         {
             series.getData().add(new XYChart.Data<>(c.getOneDay().toString(), c.getProfit()));
         }
         series.setName("Profit per day");
+
         lineChart.getData().add(series);
     }
 
+    @FXML
+    public void comboBoxChanged(ActionEvent e) throws SQLException {
+        loadTable2();
+        setChart();
+    }
+
+    public void refreshtableQuarter()
+    {
+        try {
+            profitList.clear();
+            switch (comboBoxQuarter.getValue()) {
+                case 1:
+                case 2:
+                case 3:
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 1";
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 2";
+                    break;
+                case 7:
+                case 8:
+                case 9:
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 3";
+                    break;
+                case 10:
+                case 11:
+                case 12:
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 4";
+                    break;
+            }
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                profitList.add(new ProfitList(resultSet.getDate("date_allocated"), resultSet.getDouble("unit_price")));
+                table2.setItems(profitList);
+            }
+        }catch (SQLException ex)
+        {
+            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    public void comboBoxQuarterChange(ActionEvent e) throws SQLException {
+        loadTableQuarter();
+        setChart();
+    }
+
+    //ham hien thi comboBox Quarter
+    @FXML
+    public void comboBoxEnable(ActionEvent e)
+    {
+        comboBoxQuarter.setDisable(true);
+        comboBox.setDisable(false);
+    }
+
+    //ham hien thi comboBox Quarter
+    @FXML
+    public void comboBoxQuarterEnable(ActionEvent e)
+    {
+        comboBox.setDisable(true);
+        comboBoxQuarter.setDisable(false);
+    }
     //loadTable cua tab thong ke theo thang
     public void loadTable3() throws SQLException {
         connection = JDBC.getCnn();
@@ -595,6 +720,51 @@ public class menuAdminController implements Initializable {
     }
 
     @FXML
+    public void addToQuarter(ActionEvent e)
+    {
+        ProfitQuarter profitQ = new ProfitQuarter();
+
+        for(ProfitList c : profitList)
+        {
+//            profitQ.setQuarter(c.getOneDay().getMonth()+1);
+            switch (c.getOneDay().getMonth()+1)
+            {
+                case 1:
+                case 2:
+                case 3:
+                        profitQ.setQuarter(1);
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                        profitQ.setQuarter(2);
+                    break;
+                case 7:
+                case 8:
+                case 9:
+                        profitQ.setQuarter(3);
+                    break;
+                case 10:
+                case 11:
+                case 12:
+                        profitQ.setQuarter(4);
+                    break;
+            }
+            profitDay += c.getProfit();
+        }
+
+        profitQ.setProfit(profitDay);
+        profitQuarters.add(profitQ);
+        try{
+            addToTableQuarter(profitQ);
+            ShowAlert.show("Add successful !", Alert.AlertType.INFORMATION);
+        } catch (SQLException ex) {
+            ShowAlert.show("Add failed !", Alert.AlertType.INFORMATION);
+        }
+    }
+
+
+    @FXML
 
    public void addToTableMonth(ProfitListMonth m) throws SQLException {
        connection = JDBC.getCnn();
@@ -602,6 +772,16 @@ public class menuAdminController implements Initializable {
        preparedStatement = connection.prepareStatement("INSERT INTO testthongke2(Month, Profit) VALUES(?, ?)");
        preparedStatement.setInt(1, m.getMonth());
        preparedStatement.setDouble(2, m.getProfit());
+       preparedStatement.executeUpdate();
+       connection.commit();
+   }
+
+   public void addToTableQuarter(ProfitQuarter q) throws SQLException {
+       connection = JDBC.getCnn();
+       connection.setAutoCommit(false);
+       preparedStatement = connection.prepareStatement("INSERT INTO testthongke3(Quarter, Profit) VALUES(?, ?)");
+       preparedStatement.setInt(1, q.getQuarter());
+       preparedStatement.setDouble(2, q.getProfit());
        preparedStatement.executeUpdate();
        connection.commit();
    }

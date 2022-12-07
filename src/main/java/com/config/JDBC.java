@@ -19,7 +19,7 @@ public class JDBC {
     }
 
     public static Connection getCnn() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind","root","Admin@123");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind","root","NhoxVipFiora2411");
     }
 
 //    public static void main(String[] args) throws ClassNotFoundException, SQLException {
