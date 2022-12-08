@@ -578,26 +578,26 @@ public class menuAdminController implements Initializable {
             profitList.clear();
             switch (comboBoxQuarter.getValue()) {
                 case 1:
-                case 2:
-                case 3:
                     query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 1";
+//                    ShowAlert.show(comboBoxQuarter.getValue().toString(), Alert.AlertType.WARNING);
+                    break;
+                case 2:
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 2";
+//                    ShowAlert.show(comboBoxQuarter.getValue().toString(), Alert.AlertType.WARNING);
+                    break;
+                case 3:
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 3";
+//                    ShowAlert.show(comboBoxQuarter.getValue().toString(), Alert.AlertType.WARNING);
                     break;
                 case 4:
-                case 5:
-                case 6:
-                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 2";
-                    break;
-                case 7:
-                case 8:
-                case 9:
-                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 3";
-                    break;
-                case 10:
-                case 11:
-                case 12:
                     query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 4";
+//                    ShowAlert.show(comboBoxQuarter.getValue().toString(), Alert.AlertType.WARNING);
                     break;
+//            }
             }
+//            query = "SELECT * FROM order_details WHERE quarter(date_allocated) = ?";
+//            preparedStatement.setInt(7, comboBoxQuarter.getValue());
+//                preparedStatement = connection.prepareStatement(query);
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
 
@@ -761,11 +761,12 @@ public class menuAdminController implements Initializable {
         }
         btnQuarter.setDisable(false);
         btnAddQuarter.setDisable(false);
+        refreshtable3();
+        setChartMonth();
     }
 
     @FXML
-    public void addToQuarter(ActionEvent e)
-    {
+    public void addToQuarter(ActionEvent e) throws SQLException {
         ProfitQuarter profitQ = new ProfitQuarter();
 
         for(ProfitList c : profitList)
@@ -807,6 +808,8 @@ public class menuAdminController implements Initializable {
         }
         btnMonth.setDisable(false);
         btnAddMonth.setDisable(false);
+        refreshtable4();
+        setChartQuarter();
     }
 
 
