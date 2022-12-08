@@ -143,24 +143,22 @@
                   </Pane>
                      </content>
                  </Tab>
-                 <Tab text="Nhập hàng">
+                 <Tab text="Quản Lý Kho">
                      <content>
                          <Pane prefHeight="421.0" prefWidth="767.0">
                              <children>
-                                 <TableView layoutX="5.0" layoutY="180.0" prefHeight="233.0" prefWidth="856.0">
+                                 <TableView fx:id="table_product" layoutX="14.0" layoutY="188.0" prefHeight="233.0" prefWidth="652.0">
                                      <columns>
                                          <TableColumn prefWidth="55.199978828430176" text="STT" />
-                                         <TableColumn prefWidth="91.19994735717773" text="Mã đơn" />
-                                         <TableColumn prefWidth="115.19996643066406" text="Tên đơn hàng" />
-                                         <TableColumn prefWidth="126.40008544921875" text="nhà cung cấp" />
-                                         <TableColumn minWidth="0.0" prefWidth="113.59991455078125" text="Tổng tiền hàng" />
-                                         <TableColumn prefWidth="90.40008544921875" text="Đã thanh toán" />
-                                         <TableColumn minWidth="0.0" prefWidth="92.79998779296875" text="Ngày nhập" />
-                                         <TableColumn prefWidth="86.4000244140625" text="Trạng thái" />
-                                         <TableColumn prefWidth="95.199951171875" text="Ghi chú" />
+                                         <TableColumn fx:id="product_id_col" prefWidth="108.79999160766602" text="Mã Sản Phẩm" />
+                                         <TableColumn fx:id="product_name_col" minWidth="0.0" prefWidth="131.99998474121094" text="Tên Sản phẩm" />
+                                         <TableColumn fx:id="supplier_col" minWidth="0.0" prefWidth="92.79998779296875" text="Nhà cung cấp" />
+                                         <TableColumn fx:id="product_cost_col" prefWidth="86.4000244140625" text="giá gốc" />
+                                         <TableColumn fx:id="product_price_col" prefWidth="95.199951171875" text="Giá bán" />
+                              <TableColumn fx:id="product_quantity_col" prefWidth="95.199951171875" text="Số lượng" />
                                      </columns>
                                  </TableView>
-                                 <Label layoutX="14.0" layoutY="4.0" text="Danh sách nhập hàng">
+                                 <Label layoutX="14.0" layoutY="4.0" text="Quản Lý Kho">
                                      <font>
                                          <Font name="System Bold Italic" size="17.0" />
                                      </font>
@@ -175,16 +173,15 @@
                                          <Font size="14.0" />
                                      </font>
                                  </Label>
-                                 <TextField layoutX="25.0" layoutY="64.0" prefHeight="25.0" prefWidth="285.0" />
-                                 <TextField layoutX="25.0" layoutY="126.0" prefHeight="25.0" prefWidth="110.0" />
-                                 <Button layoutX="143.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Tìm kiếm" />
-                                 <Button layoutX="237.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Thanh toán" />
-                                 <Button layoutX="333.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Hủy đơn" />
+                                 <TextField fx:id="product_Name" layoutX="25.0" layoutY="64.0" prefHeight="25.0" prefWidth="183.0" />
+                                 <TextField fx:id="product_id" layoutX="25.0" layoutY="126.0" prefHeight="25.0" prefWidth="184.0" />
+                                 <Button layoutX="220.0" layoutY="126.0" mnemonicParsing="false" onAction="#searchProductById" prefHeight="25.0" prefWidth="90.0" text="Tìm kiếm" />
                                  <Label layoutX="713.0" layoutY="38.0" text="Thêm mới đơn hàng" textFill="#271ad9" underline="true">
                                      <font>
                                          <Font size="14.0" />
                                      </font>
                                  </Label>
+                        <Button layoutX="220.0" layoutY="64.0" mnemonicParsing="false" onAction="#searchProductByProductName" prefHeight="25.0" prefWidth="90.0" text="Tìm kiếm" />
                              </children>
                          </Pane>
                      </content>
