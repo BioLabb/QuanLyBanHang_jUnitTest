@@ -1,38 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlbh.table">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qlbh.table">
     <children>
-        <Label layoutX="33.0" layoutY="38.0" text="Mã Sản Phẩm" />
-        <TableView fx:id="table" layoutX="14.0" layoutY="348.0" prefHeight="230.0" prefWidth="777.0">
-            <columns>
-                <TableColumn fx:id="columnNum" prefWidth="75.0" text="STT" />
-                <TableColumn fx:id="columnID" prefWidth="108.0" text="Mã Sản Phẩm" />
-                <TableColumn fx:id="columnName" prefWidth="161.0" text="Tên Sản Phẩm" />
-                <TableColumn fx:id="columnAmout" prefWidth="98.0" text="Số lượng" />
-                <TableColumn fx:id="columnQuantity" prefWidth="89.0" text="Đơn vị" />
-                <TableColumn fx:id="columnPrice" prefWidth="93.0" text="Giá" />
-                <TableColumn fx:id="columnDate" prefWidth="152.0" text="Date" />
-            </columns>
-        </TableView>
-        <Label layoutX="33.0" layoutY="70.0" text="Tên Sản Phẩm" />
-        <Label layoutX="36.0" layoutY="108.0" text="Số lượng" />
-        <Label layoutX="43.0" layoutY="146.0" text="Đơn vi" />
-        <Label layoutX="42.0" layoutY="187.0" text="Giá" />
-        <Label layoutX="38.0" layoutY="235.0" text="Date" />
-        <DatePicker fx:id="dp_Date" layoutX="130.0" layoutY="231.0" />
-        <Button layoutX="130.0" layoutY="296.0" mnemonicParsing="false" text="Add" />
-        <TextField fx:id="txt_ID" layoutX="130.0" layoutY="34.0" />
-        <TextField fx:id="txt_Name" layoutX="130.0" layoutY="66.0" />
-        <TextField fx:id="txt_Amout" layoutX="130.0" layoutY="104.0" />
-        <TextField fx:id="txt_Quantity" layoutX="130.0" layoutY="142.0" />
-        <TextField fx:id="txt_Price" layoutX="130.0" layoutY="183.0" />
+      <TabPane layoutX="14.0" layoutY="14.0" prefHeight="322.0" prefWidth="746.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Untitled Tab 1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                          <TableView fx:id="table" layoutX="21.0" layoutY="49.0" prefHeight="230.0" prefWidth="687.0">
+                              <columns>
+                                  <TableColumn fx:id="columnNum" prefWidth="75.0" text="STT" />
+                                  <TableColumn fx:id="columnID" prefWidth="108.0" text="Mã Sản Phẩm" />
+                                  <TableColumn fx:id="columnName" prefWidth="161.0" text="Tên Sản Phẩm" />
+                                  <TableColumn fx:id="columnAmout" prefWidth="98.0" text="Số lượng" />
+                                  <TableColumn fx:id="columnQuantity" prefWidth="89.0" text="Đơn vị" />
+                                  <TableColumn fx:id="columnPrice" prefWidth="93.0" text="Giá" />
+                                  <TableColumn fx:id="columnDate" prefWidth="152.0" text="Date" />
+                              </columns>
+                          </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Untitled Tab 2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table2" layoutX="14.0" layoutY="35.0" prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn fx:id="oDay" prefWidth="106.0" text="Date" />
+                            <TableColumn fx:id="profit" prefWidth="93.0" text="Profit" />
+                          </columns>
+                        </TableView>
+                        <LineChart fx:id="lineChart" layoutX="243.0" layoutY="14.0" prefHeight="259.0" prefWidth="354.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Thống kê theo tháng">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <LineChart fx:id="lineChartMonth" layoutX="284.0" layoutY="14.0" prefHeight="277.0" prefWidth="370.0">
+                                <xAxis>
+                                    <CategoryAxis label="MONTH" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="PROFIT" side="LEFT" />
+                                </yAxis>
+                            </LineChart>
+                            <TableView fx:id="table3" layoutX="14.0" layoutY="14.0" prefHeight="245.0" prefWidth="255.0">
+                                <columns>
+                                    <TableColumn fx:id="aMonth" prefWidth="103.0" text="Month" />
+                                    <TableColumn fx:id="profitMonth" prefWidth="151.0" text="Profit" />
+                                </columns>
+                            </TableView>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+            <Tab text="Thống kê theo quý">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <LineChart fx:id="lineChartQuarter" layoutX="271.0" layoutY="14.0" prefHeight="274.0" prefWidth="383.0">
+                                <xAxis>
+                                    <CategoryAxis label="QUARTER" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="PROFIT" side="LEFT" />
+                                </yAxis>
+                            </LineChart>
+                            <TableView fx:id="table4" layoutX="14.0" layoutY="14.0" prefHeight="235.0" prefWidth="247.0">
+                                <columns>
+                                    <TableColumn fx:id="aQuarter" prefWidth="98.0" text="Quarter" />
+                                    <TableColumn fx:id="profitQuarter" prefWidth="147.0" text="Profit" />
+                                </columns>
+                            </TableView>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+        </tabs>
+      </TabPane>
     </children>
 </AnchorPane>
