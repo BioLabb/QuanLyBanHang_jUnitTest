@@ -813,13 +813,13 @@ public class menuAdminController implements Initializable {
     private void refreshtable3() throws SQLException {
         try {
             profitListMonths.clear();
-            query = "SELECT * FROM testthongke2";
+            query = "SELECT distinct(Month), Profit, Year FROM testthongke2 order by Year, Month";
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next())
             {
-                profitListMonths.add(new ProfitListMonth(resultSet.getInt("Month"), resultSet.getDouble("Profit")));
+                profitListMonths.add(new ProfitListMonth(resultSet.getString("Month"), resultSet.getDouble("Profit"), resultSet.getInt("Year")));
                 table3.setItems(profitListMonths);
             }
         }catch (SQLException ex)
@@ -854,13 +854,13 @@ public class menuAdminController implements Initializable {
     private void refreshtable4() throws SQLException {
         try {
             profitQuarters.clear();
-            query = "SELECT * FROM testthongke3";
+            query = "SELECT distinct(Quarter), Profit, Year FROM testthongke3 order by Year, Quarter";
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next())
             {
-                profitQuarters.add(new ProfitQuarter(resultSet.getInt("Quarter"), resultSet.getDouble("Profit")));
+                profitQuarters.add(new ProfitQuarter(resultSet.getString("Quarter"), resultSet.getDouble("Profit"), resultSet.getInt("Year")));
                 table4.setItems(profitQuarters);
             }
         }catch (SQLException ex)
@@ -886,7 +886,8 @@ public class menuAdminController implements Initializable {
         ProfitListMonth profitM = new ProfitListMonth();
         for(ProfitList c : profitList)
         {
-            profitM.setMonth(c.getOneDay().getMonth()+1);
+            profitM.setMonth(String.valueOf(c.getOneDay().getMonth()+1) + '-' + String.valueOf(c.getOneDay().getYear()+1900));
+            profitM.setYear(c.getOneDay().getYear()+1900);
             profitDay += c.getProfit();
         }
 
@@ -917,22 +918,26 @@ public class menuAdminController implements Initializable {
                 case 1:
                 case 2:
                 case 3:
-                        profitQ.setQuarter(1);
+                        profitQ.setQuarter("1" + '-' + String.valueOf(c.getOneDay().getYear()+1900));
+                        profitQ.setYear(c.getOneDay().getYear()+1900);
                     break;
                 case 4:
                 case 5:
                 case 6:
-                        profitQ.setQuarter(2);
+                        profitQ.setQuarter("2"+ '-' + String.valueOf(c.getOneDay().getYear()+1900));
+                        profitQ.setYear(c.getOneDay().getYear()+1900);
                     break;
                 case 7:
                 case 8:
                 case 9:
-                        profitQ.setQuarter(3);
+                        profitQ.setQuarter("3"+ '-' + String.valueOf(c.getOneDay().getYear()+1900));
+                        profitQ.setYear(c.getOneDay().getYear()+1900);
                     break;
                 case 10:
                 case 11:
                 case 12:
-                        profitQ.setQuarter(4);
+                        profitQ.setQuarter("4"+ '-' + String.valueOf(c.getOneDay().getYear()+1900));
+                        profitQ.setYear(c.getOneDay().getYear()+1900);
                     break;
             }
             profitDay += c.getProfit();
@@ -959,9 +964,10 @@ public class menuAdminController implements Initializable {
    public void addToTableMonth(ProfitListMonth m) throws SQLException {
        connection = JDBC.getCnn();
        connection.setAutoCommit(false);
-       preparedStatement = connection.prepareStatement("INSERT INTO testthongke2(Month, Profit) VALUES(?, ?)");
-       preparedStatement.setInt(1, m.getMonth());
+       preparedStatement = connection.prepareStatement("INSERT INTO testthongke2(Month, Profit, Year) VALUES(?, ?, ?)");
+       preparedStatement.setString(1, m.getMonth());
        preparedStatement.setDouble(2, m.getProfit());
+       preparedStatement.setInt(3, m.getYear());
        preparedStatement.executeUpdate();
        connection.commit();
    }
@@ -969,12 +975,14 @@ public class menuAdminController implements Initializable {
    public void addToTableQuarter(ProfitQuarter q) throws SQLException {
        connection = JDBC.getCnn();
        connection.setAutoCommit(false);
-       preparedStatement = connection.prepareStatement("INSERT INTO testthongke3(Quarter, Profit) VALUES(?, ?)");
-       preparedStatement.setInt(1, q.getQuarter());
+       preparedStatement = connection.prepareStatement("INSERT INTO testthongke3(Quarter, Profit, Year) VALUES(?, ?, ?)");
+       preparedStatement.setString(1, q.getQuarter());
        preparedStatement.setDouble(2, q.getProfit());
+       preparedStatement.setInt(3, q.getYear());
        preparedStatement.executeUpdate();
        connection.commit();
    }
+
 
     //Xoa table Month
 //    @FXML
