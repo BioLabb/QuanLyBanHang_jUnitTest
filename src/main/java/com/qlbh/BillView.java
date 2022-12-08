@@ -92,6 +92,7 @@ public class BillView implements Initializable {
     }
 
     public void print(ActionEvent event){
-
+       TableOrderDetailStore.clearList();
+       order_detail.setItems(TableOrderDetailStore.getTableOrderDetailsList());
     }
 }

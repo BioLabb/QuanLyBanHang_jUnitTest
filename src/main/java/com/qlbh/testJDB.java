@@ -26,7 +26,6 @@ public class testJDB {
         stm.setString(4,"1234");
 
         int rs = stm.executeUpdate();
-        System.out.println(rs);
     }
 
     public static class OrderTable {

@@ -23,7 +23,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -229,6 +232,11 @@ public class menuAdminController implements Initializable {
        pay_change();
        initTableView();
 
+        try {
+            initTableProduct();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // -------------BÁN HÀNG-------------
@@ -326,11 +334,84 @@ public class menuAdminController implements Initializable {
        menuView.OutputBill(e);
    }
 
+
+
+   // -----------QUẢN LÝ KHO---------------
+    @FXML
+    private TextField product_id;
+    @FXML
+    private TextField product_Name;
+    @FXML
+    private TableView<TableProduct> table_product;
+    @FXML
+    private TableColumn<TableProduct,Integer> product_id_col;
+    @FXML
+    private TableColumn<TableProduct,Integer> product_name_col;
+    @FXML
+    private TableColumn<TableProduct,String> supplier_col;
+    @FXML
+    private TableColumn<TableProduct,Double> product_cost_col;
+    @FXML
+    private TableColumn<TableProduct,Double> product_price_col;
+    @FXML
+    private TableColumn<TableProduct,Integer> product_quantity_col;
+    private ObservableList<TableProduct> productObservableList = FXCollections.observableArrayList();
+    public void initTableProduct() throws SQLException {
+        product_id_col.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        product_name_col.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        supplier_col.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
+        product_cost_col.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        product_price_col.setCellValueFactory(new PropertyValueFactory<>("price"));
+        product_quantity_col.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        ArrayList<Product> productArrayList = ProductServices.findAll();
+        for (Product product:productArrayList) {
+            TableProduct tableProduct = new TableProduct(product.getId(),product.getName(),product.getSupplierID(),product.getCost(),product.getPrice(),3);
+            productObservableList.add(tableProduct);
+        }
+        table_product.setItems(productObservableList);
+
+    }
+
+    public void searchProductById(ActionEvent event){
+        if(validator(product_id.getText())){
+            int id = Integer.parseInt(product_id.getText());
+            List<TableProduct> tableProducts = productObservableList.stream().filter(pt-> pt.getProductID() == id).collect(Collectors.toList());
+
+            ObservableList<TableProduct> tmp = FXCollections.observableArrayList();
+            for (TableProduct tableProduct:tableProducts) {
+                tmp.add(tableProduct);
+            }
+            table_product.setItems(tmp);
+        }
+        else{
+            ShowAlert.show("Mã đơn hàng trống", Alert.AlertType.WARNING);
+            table_product.setItems(productObservableList);
+        }
+    }
+
+    public void searchProductByProductName(ActionEvent event){
+        if(validator(product_Name.getText().trim())){
+        String name = product_Name.getText().trim();
+        List<TableProduct> tableProducts = productObservableList.stream().filter(pt-> pt.getProductName().equals(name)).collect(Collectors.toList());
+
+        ObservableList<TableProduct> tmp = FXCollections.observableArrayList();
+        for (TableProduct tableProduct:tableProducts) {
+            tmp.add(tableProduct);
+        }
+        table_product.setItems(tmp);
+    }
+    else{
+        ShowAlert.show("Mã đơn hàng trống", Alert.AlertType.WARNING);
+        table_product.setItems(productObservableList);
+    }
+}
+
+
+
 // ------------ THÊM NHÂN VIÊN-------------
    // kiểm tra rỗng
    private boolean validator(String val){
        if(val.isEmpty()){
-           ShowAlert.show("Chưa điền đầy đủ thông tin", Alert.AlertType.WARNING);
            return false;
        }
        return true;

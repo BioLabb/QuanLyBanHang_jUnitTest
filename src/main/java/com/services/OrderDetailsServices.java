@@ -18,7 +18,6 @@ public class OrderDetailsServices {
                 "unit_price,\n" +
                 "date_allocated)\n" +
                 "VALUES(?, ?, ?, ?)");
-        System.out.println("21 getProductID: " + orderDetails.getOrderId());
         statement.setInt(1,orderDetails.getProductId());
         statement.setInt(2,orderDetails.getQuantity());
         statement.setDouble(3,orderDetails.getPrice());

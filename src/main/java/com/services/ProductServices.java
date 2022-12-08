@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ProductServices {
     private static Connection connection;
@@ -28,12 +29,30 @@ public class ProductServices {
         return null;
     }
 
+    public static ArrayList<Product> findAll() throws SQLException {
+        connection = JDBC.getCnn();
+
+        PreparedStatement smt = connection.prepareStatement("select * from products");
+        ResultSet rs = smt.executeQuery();
+
+        ArrayList<Product> productArrayList = new ArrayList<>();
+        while (rs.next()){
+            int id = rs.getInt("id");
+            String name = rs.getString("product_name");
+            int supplier = rs.getInt("supplier_id");
+            double cost= rs.getDouble("standard_cost");
+            double price = rs.getDouble("list_price");
+            int quantity  = rs.getInt("UnitsInStock");
+
+            productArrayList.add(new Product(id,name,supplier,price,cost,quantity));
+        }
+        return productArrayList;
+    }
+
 //    public static void main(String[] args) throws SQLException {
-//        Product product = findProductById(1);
-//        if(product == null){
-//            System.out.println("ko tim thay");
+//        for (Product val: findAll()) {
+//            System.out.println(val.getName());
+//
 //        }
-//        else
-//            System.out.println(product.getId());
 //    }
 }
