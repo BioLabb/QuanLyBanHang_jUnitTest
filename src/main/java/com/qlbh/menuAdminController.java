@@ -232,11 +232,11 @@ public class menuAdminController implements Initializable {
        pay_change();
        initTableView();
 
-        try {
-            initTableProduct();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            initTableProduct();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     // -------------BÁN HÀNG-------------
