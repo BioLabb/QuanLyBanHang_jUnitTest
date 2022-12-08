@@ -124,6 +124,11 @@ public class menuAdminController implements Initializable {
 
     @FXML
     public ComboBox<Integer> comboBoxYear;
+
+    @FXML
+            public ComboBox<Integer> comboBoxYear1;
+    @FXML
+    public ComboBox<Integer> comboBoxYear2;
     ObservableList<Integer> listYear = FXCollections.observableArrayList(2003,
             2009,
             2010,
@@ -204,7 +209,7 @@ public class menuAdminController implements Initializable {
     private TableColumn<TableOrderDetail,Integer> unit_price_colum;
     @FXML
     private TableColumn<TableOrderDetail,Integer> total_colum;
-//    private ObservableList<TableOrderDetail> orderDetailList;
+    //    private ObservableList<TableOrderDetail> orderDetailList;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -219,22 +224,20 @@ public class menuAdminController implements Initializable {
 
 
         // tạo mã đơn hàng
-       int id = (int) (Math.random()* Math.pow(10,5))+ 9* (int)Math.pow(10,5);
-       String idString = String.format("%d",id);
-       id_order_detail.setText(idString);
-       contentTextFieldChange(6);
-       comboBox.setItems(list);
-       comboBoxQuarter.setItems(listQuarter);
-       comboBoxYear.setItems(listYear);
-        try {
+        int id = (int) (Math.random()* Math.pow(10,5))+ 9* (int)Math.pow(10,5);
+        String idString = String.format("%d",id);
+        id_order_detail.setText(idString);
+        contentTextFieldChange(6);
+        comboBox.setItems(list);
+        comboBoxQuarter.setItems(listQuarter);
+        comboBoxYear.setItems(listYear);
+        comboBoxYear1.setItems(listYear);
+        comboBoxYear2.setItems(listYear);
 //            loadTable();
-            loadTable3();
-            loadTable4();
-            setChartMonth();
-            setChartQuarter();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//            loadTable3();
+//            loadTable4();
+//            setChartMonth();
+//            setChartQuarter();
 
 //        sumprice(); //Tong bien Price trong table view Thanh Tien hien thi Thanh Tien Bill.priceOut
 
@@ -254,8 +257,8 @@ public class menuAdminController implements Initializable {
         btnQuarterEn.setDisable(true);
         btnAddQuarter.setDisable(true);
 
-       pay_change();
-       initTableView();
+        pay_change();
+        initTableView();
 
 
 //        try {
@@ -366,12 +369,12 @@ public class menuAdminController implements Initializable {
 
 
     public void bill(ActionEvent e) throws IOException {
-       menuView.OutputBill(e);
-   }
+        menuView.OutputBill(e);
+    }
 
 
 
-   // -----------QUẢN LÝ KHO---------------
+    // -----------QUẢN LÝ KHO---------------
     @FXML
     private TextField product_id;
     @FXML
@@ -426,119 +429,119 @@ public class menuAdminController implements Initializable {
 
     public void searchProductByProductName(ActionEvent event){
         if(validator(product_Name.getText().trim())){
-        String name = product_Name.getText().trim();
-        List<TableProduct> tableProducts = productObservableList.stream().filter(pt-> pt.getProductName().equals(name)).collect(Collectors.toList());
+            String name = product_Name.getText().trim();
+            List<TableProduct> tableProducts = productObservableList.stream().filter(pt-> pt.getProductName().equals(name)).collect(Collectors.toList());
 
-        ObservableList<TableProduct> tmp = FXCollections.observableArrayList();
-        for (TableProduct tableProduct:tableProducts) {
-            tmp.add(tableProduct);
+            ObservableList<TableProduct> tmp = FXCollections.observableArrayList();
+            for (TableProduct tableProduct:tableProducts) {
+                tmp.add(tableProduct);
+            }
+            table_product.setItems(tmp);
         }
-        table_product.setItems(tmp);
+        else{
+            ShowAlert.show("Mã đơn hàng trống", Alert.AlertType.WARNING);
+            table_product.setItems(productObservableList);
+        }
     }
-    else{
-        ShowAlert.show("Mã đơn hàng trống", Alert.AlertType.WARNING);
-        table_product.setItems(productObservableList);
+
+
+
+    // ------------ THÊM NHÂN VIÊN-------------
+    // kiểm tra rỗng
+    private boolean validator(String val){
+        if(val.isEmpty()){
+            return false;
+        }
+        return true;
     }
-}
+
+    // kiểm tra ngày rỗng
+    private boolean validator(LocalDate date){
+        if(date == null){
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isUserNameEmployee(String user){
+        if(user.startsWith("NV"))
+            return true;
+        return false;
+    }
+
+    private boolean isCheckLength(String string,int lengthMin,int lengthMax){
+        if(string.length() >= lengthMin && string.length() <= lengthMax)
+            return true;
+        return false;
+    }
+
+    // kiểm tra tài khoản tồn tại hay chưa
+    public boolean isUserExist(String userName) throws SQLException {
+
+        Connection connection = JDBC.getCnn();
+        PreparedStatement stm = connection.prepareStatement("select user from employees where user = ?");
+        stm.setString(1, userName);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()){
+            return true;
+        }
+        return false;
+    }
 
 
+    public void addEmployee() throws SQLException {
+        String userName= txt_user_name.getText();
+        // kiểm tra tài khoản đã tạo hay chưa
+        if(!isUserExist("NV"+userName)){
+            String lastName= txt_last_name.getText();
+            String firstName = txt_first_name.getText();
+            LocalDate date = txt_date.getValue();
+            String adress = txt_adress.getText();
+            String passWord = txt_password.getText();
+            String phone = txt_phone.getText();
+            String email = txt_email.getText();
 
-// ------------ THÊM NHÂN VIÊN-------------
-   // kiểm tra rỗng
-   private boolean validator(String val){
-       if(val.isEmpty()){
-           return false;
-       }
-       return true;
-   }
+            // kiểm tra thông tin dã được nhập đầy đủ chưa
+            if(validator(lastName) && validator(firstName) && validator(adress) && validator(userName)
+                    && validator(passWord) && validator(email)){
+                if(!(isCheckLength(userName,6,16))){
+                    ShowAlert.show("user từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
+                }
+                else if(!isCheckLength(passWord,6,16)){
+                    ShowAlert.show("password từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
+                }
+                else if(userName.equals(EmployeesStore.getEmployess().getUser())){
+                    ShowAlert.show("password không được trùng với username", Alert.AlertType.WARNING);
+                }else if(!validator(date)){
+                    ShowAlert.show("Ngày tháng không hợp lê", Alert.AlertType.WARNING);
+                }
+                else {
+                    String nv = lb_nv.getText();
+                    String userSignUp = nv + txt_user_name.getText();
+                    Employess employess = new Employess(lastName,firstName, Date.valueOf(date),email,phone,adress,
+                            userSignUp,passWord,false);
+                    EmployessServices.addEmployees(employess);
+                    ShowAlert.show("Thêm thành công", Alert.AlertType.INFORMATION);
+                }
+            }else{
+                ShowAlert.show("Chưa điền đầy đủ thông tin", Alert.AlertType.WARNING);
+            }
+        }
+        else{
+            ShowAlert.show("tài khoản đã tồn tại", Alert.AlertType.INFORMATION);
+        }
+    }
 
-   // kiểm tra ngày rỗng
-   private boolean validator(LocalDate date){
-       if(date == null){
-           return false;
-       }
-       return true;
-   }
+    public void goBack(ActionEvent e) throws IOException {
+        menuView.nextPage(e,"sign-view.fxml","Sign");
+    }
 
-   private boolean isUserNameEmployee(String user){
-       if(user.startsWith("NV"))
-           return true;
-       return false;
-   }
+    public void removeEmployee(ActionEvent e) throws IOException {
 
-   private boolean isCheckLength(String string,int lengthMin,int lengthMax){
-       if(string.length() >= lengthMin && string.length() <= lengthMax)
-           return true;
-       return false;
-   }
+        menuView.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
+    }
 
-   // kiểm tra tài khoản tồn tại hay chưa
-   public boolean isUserExist(String userName) throws SQLException {
-
-       Connection connection = JDBC.getCnn();
-       PreparedStatement stm = connection.prepareStatement("select user from employees where user = ?");
-       stm.setString(1, userName);
-       ResultSet rs = stm.executeQuery();
-       if(rs.next()){
-           return true;
-       }
-       return false;
-   }
-
-
-   public void addEmployee() throws SQLException {
-       String userName= txt_user_name.getText();
-       // kiểm tra tài khoản đã tạo hay chưa
-       if(!isUserExist("NV"+userName)){
-           String lastName= txt_last_name.getText();
-           String firstName = txt_first_name.getText();
-           LocalDate date = txt_date.getValue();
-           String adress = txt_adress.getText();
-           String passWord = txt_password.getText();
-           String phone = txt_phone.getText();
-           String email = txt_email.getText();
-
-           // kiểm tra thông tin dã được nhập đầy đủ chưa
-           if(validator(lastName) && validator(firstName) && validator(adress) && validator(userName)
-                   && validator(passWord) && validator(email)){
-               if(!(isCheckLength(userName,6,16))){
-                   ShowAlert.show("user từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
-               }
-               else if(!isCheckLength(passWord,6,16)){
-                   ShowAlert.show("password từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
-               }
-               else if(userName.equals(EmployeesStore.getEmployess().getUser())){
-                   ShowAlert.show("password không được trùng với username", Alert.AlertType.WARNING);
-               }else if(!validator(date)){
-                   ShowAlert.show("Ngày tháng không hợp lê", Alert.AlertType.WARNING);
-               }
-               else {
-                   String nv = lb_nv.getText();
-                   String userSignUp = nv + txt_user_name.getText();
-                   Employess employess = new Employess(lastName,firstName, Date.valueOf(date),email,phone,adress,
-                           userSignUp,passWord,false);
-                   EmployessServices.addEmployees(employess);
-                   ShowAlert.show("Thêm thành công", Alert.AlertType.INFORMATION);
-               }
-           }else{
-               ShowAlert.show("Chưa điền đầy đủ thông tin", Alert.AlertType.WARNING);
-           }
-       }
-       else{
-           ShowAlert.show("tài khoản đã tồn tại", Alert.AlertType.INFORMATION);
-       }
-   }
-
-   public void goBack(ActionEvent e) throws IOException {
-       menuView.nextPage(e,"sign-view.fxml","Sign");
-   }
-
-   public void removeEmployee(ActionEvent e) throws IOException {
-
-       menuView.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
-   }
-
-   //Day la du lieu rieng cua Hieu neu cai kia load khong duoc cu doi table view roi xai khong anh huong den
+    //Day la du lieu rieng cua Hieu neu cai kia load khong duoc cu doi table view roi xai khong anh huong den
     //database trong sql
     //loadTable cua tab 1
 //    public void loadTable() throws SQLException {
@@ -813,13 +816,13 @@ public class menuAdminController implements Initializable {
     private void refreshtable3() throws SQLException {
         try {
             profitListMonths.clear();
-            query = "SELECT distinct(Month), Profit, Year FROM testthongke2 order by Year, Month";
+            query = "SELECT distinct Month, Year, Profit FROM testthongke2 order by Year, Month";
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next())
             {
-                profitListMonths.add(new ProfitListMonth(resultSet.getString("Month"), resultSet.getDouble("Profit"), resultSet.getInt("Year")));
+                profitListMonths.add(new ProfitListMonth(resultSet.getInt("Month"), resultSet.getDouble("Profit"), resultSet.getInt("Year")));
                 table3.setItems(profitListMonths);
             }
         }catch (SQLException ex)
@@ -831,6 +834,7 @@ public class menuAdminController implements Initializable {
     //Chart cua tab thong ke theo thang
     private void setChartMonth()
     {
+        lineChartMonth.getData().clear();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         for(ProfitListMonth c : profitListMonths)
         {
@@ -838,6 +842,39 @@ public class menuAdminController implements Initializable {
         }
         series.setName("Profit per Month");
         lineChartMonth.getData().add(series);
+    }
+
+    public void comboBoxYear1Changed(ActionEvent e) throws SQLException {
+        loadTableMonth1();
+        setChartMonth();
+    }
+
+    public void loadTableMonth1() throws SQLException {
+        connection = JDBC.getCnn();
+        int y = comboBoxYear1.getValue();
+        refreshtableMonth1(y);
+
+        aMonth.setCellValueFactory(new PropertyValueFactory<>("Month"));
+        profitMonth.setCellValueFactory(new PropertyValueFactory<>("profit"));
+    }
+    public void refreshtableMonth1(int y) {
+        try {
+            profitListMonths.clear();
+            query = "SELECT distinct Month, Year, Profit FROM testthongke2 where Year = ? order by Year, Month";
+//            query = "SELECT * FROM order_details WHERE quarter(date_allocated) = ?";
+//            preparedStatement.setInt(7, comboBoxQuarter.getValue());
+//                preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, y);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                profitListMonths.add(new ProfitListMonth(resultSet.getInt("Month"), resultSet.getDouble("Profit"), resultSet.getInt("Year")));
+                table3.setItems(profitListMonths);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     //loadTable cua tab thong ke theo quy
@@ -860,7 +897,7 @@ public class menuAdminController implements Initializable {
 
             while (resultSet.next())
             {
-                profitQuarters.add(new ProfitQuarter(resultSet.getString("Quarter"), resultSet.getDouble("Profit"), resultSet.getInt("Year")));
+                profitQuarters.add(new ProfitQuarter(resultSet.getInt("Quarter"), resultSet.getDouble("Profit"), resultSet.getInt("Year")));
                 table4.setItems(profitQuarters);
             }
         }catch (SQLException ex)
@@ -872,6 +909,7 @@ public class menuAdminController implements Initializable {
     //Chart cua tab thong ke theo quy
     private void setChartQuarter()
     {
+        lineChartQuarter.getData().clear();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         for(ProfitQuarter c : profitQuarters)
         {
@@ -881,12 +919,45 @@ public class menuAdminController implements Initializable {
         lineChartQuarter.getData().add(series);
     }
 
+    public void comboBoxYear2Changed(ActionEvent e) throws SQLException {
+        loadTableQuarter1();
+        setChartQuarter();
+    }
+
+    public void loadTableQuarter1() throws SQLException {
+        connection = JDBC.getCnn();
+        int y = comboBoxYear2.getValue();
+        refreshtableQuarter1(y);
+
+        aQuarter.setCellValueFactory(new PropertyValueFactory<>("quarter"));
+        profitQuarter.setCellValueFactory(new PropertyValueFactory<>("profit"));
+    }
+    public void refreshtableQuarter1(int y) {
+        try {
+            profitQuarters.clear();
+            query = "SELECT distinct Quarter, Year, Profit FROM testthongke3 where Year = ? order by Year, Quarter";
+//            query = "SELECT * FROM order_details WHERE quarter(date_allocated) = ?";
+//            preparedStatement.setInt(7, comboBoxQuarter.getValue());
+//                preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, y);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                profitQuarters.add(new ProfitQuarter(resultSet.getInt("Quarter"), resultSet.getDouble("Profit"), resultSet.getInt("Year")));
+                table4.setItems(profitQuarters);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     @FXML
     public void addToMonth(ActionEvent e) throws SQLException {
         ProfitListMonth profitM = new ProfitListMonth();
         for(ProfitList c : profitList)
         {
-            profitM.setMonth(String.valueOf(c.getOneDay().getMonth()+1) + '-' + String.valueOf(c.getOneDay().getYear()+1900));
+            profitM.setMonth(c.getOneDay().getMonth()+1);
             profitM.setYear(c.getOneDay().getYear()+1900);
             profitDay += c.getProfit();
         }
@@ -918,26 +989,26 @@ public class menuAdminController implements Initializable {
                 case 1:
                 case 2:
                 case 3:
-                        profitQ.setQuarter("1" + '-' + String.valueOf(c.getOneDay().getYear()+1900));
-                        profitQ.setYear(c.getOneDay().getYear()+1900);
+                    profitQ.setQuarter(1);
+                    profitQ.setYear(c.getOneDay().getYear()+1900);
                     break;
                 case 4:
                 case 5:
                 case 6:
-                        profitQ.setQuarter("2"+ '-' + String.valueOf(c.getOneDay().getYear()+1900));
-                        profitQ.setYear(c.getOneDay().getYear()+1900);
+                    profitQ.setQuarter(2);
+                    profitQ.setYear(c.getOneDay().getYear()+1900);
                     break;
                 case 7:
                 case 8:
                 case 9:
-                        profitQ.setQuarter("3"+ '-' + String.valueOf(c.getOneDay().getYear()+1900));
-                        profitQ.setYear(c.getOneDay().getYear()+1900);
+                    profitQ.setQuarter(3);
+                    profitQ.setYear(c.getOneDay().getYear()+1900);
                     break;
                 case 10:
                 case 11:
                 case 12:
-                        profitQ.setQuarter("4"+ '-' + String.valueOf(c.getOneDay().getYear()+1900));
-                        profitQ.setYear(c.getOneDay().getYear()+1900);
+                    profitQ.setQuarter(4);
+                    profitQ.setYear(c.getOneDay().getYear()+1900);
                     break;
             }
             profitDay += c.getProfit();
@@ -961,27 +1032,27 @@ public class menuAdminController implements Initializable {
 
     @FXML
 
-   public void addToTableMonth(ProfitListMonth m) throws SQLException {
-       connection = JDBC.getCnn();
-       connection.setAutoCommit(false);
-       preparedStatement = connection.prepareStatement("INSERT INTO testthongke2(Month, Profit, Year) VALUES(?, ?, ?)");
-       preparedStatement.setString(1, m.getMonth());
-       preparedStatement.setDouble(2, m.getProfit());
-       preparedStatement.setInt(3, m.getYear());
-       preparedStatement.executeUpdate();
-       connection.commit();
-   }
+    public void addToTableMonth(ProfitListMonth m) throws SQLException {
+        connection = JDBC.getCnn();
+        connection.setAutoCommit(false);
+        preparedStatement = connection.prepareStatement("INSERT INTO testthongke2(Month, Profit, Year) VALUES(?, ?, ?)");
+        preparedStatement.setInt(1, m.getMonth());
+        preparedStatement.setDouble(2, m.getProfit());
+        preparedStatement.setInt(3, m.getYear());
+        preparedStatement.executeUpdate();
+        connection.commit();
+    }
 
-   public void addToTableQuarter(ProfitQuarter q) throws SQLException {
-       connection = JDBC.getCnn();
-       connection.setAutoCommit(false);
-       preparedStatement = connection.prepareStatement("INSERT INTO testthongke3(Quarter, Profit, Year) VALUES(?, ?, ?)");
-       preparedStatement.setString(1, q.getQuarter());
-       preparedStatement.setDouble(2, q.getProfit());
-       preparedStatement.setInt(3, q.getYear());
-       preparedStatement.executeUpdate();
-       connection.commit();
-   }
+    public void addToTableQuarter(ProfitQuarter q) throws SQLException {
+        connection = JDBC.getCnn();
+        connection.setAutoCommit(false);
+        preparedStatement = connection.prepareStatement("INSERT INTO testthongke3(Quarter, Profit, Year) VALUES(?, ?, ?)");
+        preparedStatement.setInt(1, q.getQuarter());
+        preparedStatement.setDouble(2, q.getProfit());
+        preparedStatement.setInt(3, q.getYear());
+        preparedStatement.executeUpdate();
+        connection.commit();
+    }
 
 
     //Xoa table Month

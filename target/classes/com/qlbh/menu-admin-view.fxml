@@ -236,7 +236,7 @@
                      <content>
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                              <children>
-                                 <LineChart fx:id="lineChartMonth" layoutX="284.0" layoutY="14.0" prefHeight="277.0" prefWidth="370.0">
+                                 <LineChart fx:id="lineChartMonth" layoutX="284.0" layoutY="88.0" prefHeight="277.0" prefWidth="370.0">
                                      <xAxis>
                                          <CategoryAxis label="MONTH" side="BOTTOM" />
                                      </xAxis>
@@ -244,12 +244,13 @@
                                          <NumberAxis label="PROFIT" side="LEFT" />
                                      </yAxis>
                                  </LineChart>
-                        <TableView fx:id="table3" layoutX="14.0" layoutY="14.0" prefHeight="245.0" prefWidth="255.0">
+                        <TableView fx:id="table3" layoutX="14.0" layoutY="88.0" prefHeight="245.0" prefWidth="255.0">
                           <columns>
                             <TableColumn fx:id="aMonth" prefWidth="103.0" text="Month" />
                             <TableColumn fx:id="profitMonth" prefWidth="151.0" text="Profit" />
                           </columns>
                         </TableView>
+                        <ComboBox fx:id="comboBoxYear1" layoutX="469.0" layoutY="22.0" onAction="#comboBoxYear1Changed" prefWidth="150.0" promptText="Year" />
                              </children>
                   </AnchorPane>
                      </content>
@@ -258,7 +259,7 @@
                      <content>
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                              <children>
-                                 <LineChart fx:id="lineChartQuarter" layoutX="271.0" layoutY="14.0" prefHeight="274.0" prefWidth="383.0">
+                                 <LineChart fx:id="lineChartQuarter" layoutX="271.0" layoutY="93.0" prefHeight="274.0" prefWidth="383.0">
                                      <xAxis>
                                          <CategoryAxis label="QUARTER" side="BOTTOM" />
                                      </xAxis>
@@ -266,12 +267,13 @@
                                          <NumberAxis label="PROFIT" side="LEFT" />
                                      </yAxis>
                                  </LineChart>
-                        <TableView fx:id="table4" layoutX="14.0" layoutY="14.0" prefHeight="235.0" prefWidth="247.0">
+                        <TableView fx:id="table4" layoutX="14.0" layoutY="93.0" prefHeight="235.0" prefWidth="247.0">
                           <columns>
                             <TableColumn fx:id="aQuarter" prefWidth="98.0" text="Quarter" />
                             <TableColumn fx:id="profitQuarter" prefWidth="147.0" text="Profit" />
                           </columns>
                         </TableView>
+                        <ComboBox fx:id="comboBoxYear2" layoutX="448.0" layoutY="28.0" onAction="#comboBoxYear2Changed" prefWidth="150.0" promptText="Year" />
                              </children>
                   </AnchorPane>
                      </content>

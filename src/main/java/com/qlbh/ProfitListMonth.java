@@ -3,7 +3,7 @@
 package com.qlbh;
 
 public class ProfitListMonth {
-    private String Month;
+    private int Month;
     private double profit;
 
     private int year;
@@ -11,17 +11,17 @@ public class ProfitListMonth {
     public ProfitListMonth() {
     }
 
-    public ProfitListMonth(String month, double profit, int year) {
+    public ProfitListMonth(int month, double profit, int year) {
         Month = month;
         this.profit = profit;
         this.year = year;
     }
 
-    public String getMonth() {
+    public int getMonth() {
         return Month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(int month) {
         Month = month;
     }
 
@@ -40,6 +40,36 @@ public class ProfitListMonth {
     public void setYear(int year) {
         this.year = year;
     }
+
+    //    public ProfitListMonth(String month, double profit, int year) {
+//        Month = month;
+//        this.profit = profit;
+//        this.year = year;
+//    }
+//
+//    public String getMonth() {
+//        return Month;
+//    }
+//
+//    public void setMonth(String month) {
+//        Month = month;
+//    }
+//
+//    public double getProfit() {
+//        return profit;
+//    }
+//
+//    public void setProfit(double profit) {
+//        this.profit = profit;
+//    }
+//
+//    public int getYear() {
+//        return year;
+//    }
+//
+//    public void setYear(int year) {
+//        this.year = year;
+//    }
 
     //    public ProfitListMonth(String month, double profit) {
 //        Month = month;

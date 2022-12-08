@@ -3,7 +3,7 @@
 package com.qlbh;
 
 public class ProfitQuarter {
-    private String quarter;
+    private int quarter;
     private double profit;
 
     private int year;
@@ -11,17 +11,17 @@ public class ProfitQuarter {
     public ProfitQuarter() {
     }
 
-    public ProfitQuarter(String quarter, double profit, int year) {
+    public ProfitQuarter(int quarter, double profit, int year) {
         this.quarter = quarter;
         this.profit = profit;
         this.year = year;
     }
 
-    public String getQuarter() {
+    public int getQuarter() {
         return quarter;
     }
 
-    public void setQuarter(String quarter) {
+    public void setQuarter(int quarter) {
         this.quarter = quarter;
     }
 
