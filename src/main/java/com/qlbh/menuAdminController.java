@@ -123,6 +123,22 @@ public class menuAdminController implements Initializable {
     ObservableList<Integer> listQuarter = FXCollections.observableArrayList(1, 2, 3 ,4);
 
     @FXML
+    public ComboBox<Integer> comboBoxYear;
+    ObservableList<Integer> listYear = FXCollections.observableArrayList(2003,
+            2009,
+            2010,
+            2011,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021,
+            2022);
+
+    @FXML
     private Button btnMonth;
 
     @FXML
@@ -209,6 +225,7 @@ public class menuAdminController implements Initializable {
        contentTextFieldChange(6);
        comboBox.setItems(list);
        comboBoxQuarter.setItems(listQuarter);
+       comboBoxYear.setItems(listYear);
         try {
 //            loadTable();
             loadTable3();
@@ -222,15 +239,33 @@ public class menuAdminController implements Initializable {
 //        sumprice(); //Tong bien Price trong table view Thanh Tien hien thi Thanh Tien Bill.priceOut
 
 
-        Dateta.setValue(LocalDate.now());
-
-        BillView.Datetah = Dateta;
+//        Dateta.setValue(LocalDate.now());
+//
+//        BillView.Datetah = Dateta;
         BillView.usern = lb_user_name.getText();
 //        BillView.priceOut = Double.parseDouble(PriceOut.getText()); //Hien Thi Label Thanh Tien
 
+        btnMonthEn.setDisable(true);
+        comboBox.setDisable(true);
+        comboBoxQuarter.setDisable(true);
+        btnMonth.setDisable(true);
+        btnAddMonth.setDisable(true);
+        btnQuarter.setDisable(true);
+        btnQuarterEn.setDisable(true);
+        btnAddQuarter.setDisable(true);
 
        pay_change();
        initTableView();
+
+
+//        try {
+//            query = "SELECT distinct(year(date_allocated)) FROM order_details";
+//            preparedStatement = connection.prepareStatement(query);
+//            listYear = (ObservableList<Integer>) preparedStatement;
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+
 
 //        try {
 //            initTableProduct();
@@ -559,7 +594,8 @@ public class menuAdminController implements Initializable {
     //loadTable cua tab thong ke theo ngay
     public void loadTable2() throws SQLException {
         connection = JDBC.getCnn();
-        refreshtable2();
+        int y = comboBoxYear.getValue();
+        refreshtable2(y);
 
         oDay.setCellValueFactory(new PropertyValueFactory<>("oneDay"));
         profit.setCellValueFactory(new PropertyValueFactory<>("profit"));
@@ -567,7 +603,8 @@ public class menuAdminController implements Initializable {
 
     public void loadTableQuarter() throws SQLException {
         connection = JDBC.getCnn();
-        refreshtableQuarter();
+        int y = comboBoxYear.getValue();
+        refreshtableQuarter(y);
 
         oDay.setCellValueFactory(new PropertyValueFactory<>("oneDay"));
         profit.setCellValueFactory(new PropertyValueFactory<>("profit"));
@@ -575,47 +612,48 @@ public class menuAdminController implements Initializable {
 
     //refreshtable cua tab thong ke theo ngay
     @FXML
-    private void refreshtable2() throws SQLException {
+    private void refreshtable2(int y) throws SQLException {
         try {
             profitList.clear();
             if(comboBox.getValue() == 1) {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 1";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 1 AND YEAR(date_allocated) = ?";
             } else if(comboBox.getValue() == 2)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 2";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 2 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 3)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 3";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 3 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 4)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 4";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 4 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 5)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 5";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 5 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 6)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 6";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 6 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 7)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 7";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 7 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 8)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 8";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 8 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 9)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 9";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 9 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 10)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 10";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 10 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 11)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 11";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 11 AND YEAR(date_allocated) = ?";
             }else if(comboBox.getValue() == 12)
             {
-                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 12";
+                query = "SELECT * FROM order_details WHERE MONTH(date_allocated) = 12 AND YEAR(date_allocated) = ?";
             }
 
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, y);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next())
@@ -653,25 +691,38 @@ public class menuAdminController implements Initializable {
         setChart();
     }
 
-    public void refreshtableQuarter()
+    @FXML
+    public void comboBoxYearChanged(ActionEvent e)
+    {
+        btnMonthEn.setDisable(false);
+//        comboBox.setDisable(false);
+//        comboBoxQuarter.setDisable(false);
+        btnMonth.setDisable(false);
+//        btnAddMonth.setDisable(false);
+        btnQuarter.setDisable(false);
+        btnQuarterEn.setDisable(false);
+//        btnAddQuarter.setDisable(false);
+    }
+
+    public void refreshtableQuarter(int y)
     {
         try {
             profitList.clear();
             switch (comboBoxQuarter.getValue()) {
                 case 1:
-                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 1";
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 1 AND YEAR(date_allocated) = ? ";
 //                    ShowAlert.show(comboBoxQuarter.getValue().toString(), Alert.AlertType.WARNING);
                     break;
                 case 2:
-                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 2";
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 2 AND YEAR(date_allocated) = ?";
 //                    ShowAlert.show(comboBoxQuarter.getValue().toString(), Alert.AlertType.WARNING);
                     break;
                 case 3:
-                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 3";
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 3 AND YEAR(date_allocated) = ?";
 //                    ShowAlert.show(comboBoxQuarter.getValue().toString(), Alert.AlertType.WARNING);
                     break;
                 case 4:
-                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 4";
+                    query = "SELECT * FROM order_details WHERE QUARTER(date_allocated) = 4 AND YEAR(date_allocated) = ?";
 //                    ShowAlert.show(comboBoxQuarter.getValue().toString(), Alert.AlertType.WARNING);
                     break;
 //            }
@@ -680,6 +731,7 @@ public class menuAdminController implements Initializable {
 //            preparedStatement.setInt(7, comboBoxQuarter.getValue());
 //                preparedStatement = connection.prepareStatement(query);
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, y);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next())
@@ -703,43 +755,49 @@ public class menuAdminController implements Initializable {
     @FXML
     public void comboBoxEnable(ActionEvent e)
     {
-        comboBoxQuarter.setDisable(true);
-        comboBox.setDisable(false);
         btnQuarter.setDisable(true);
+        comboBoxQuarter.setDisable(true);
         btnAddQuarter.setDisable(true);
         btnMonth.setVisible(false);
-        btnQuarterEn.setDisable(true);
+        btnMonthEn.setVisible(true);
+        btnMonthEn.setDisable(false);
+        comboBox.setDisable(false);
+        btnAddMonth.setDisable(false);
     }
 
     @FXML
     public void comboBoxEnable1(ActionEvent e)
     {
-        btnQuarterEn.setDisable(false);
+        comboBox.setDisable(true);
+        btnAddMonth.setDisable(true);
+        btnMonthEn.setDisable(true);
+        btnMonthEn.setVisible(false);
         btnMonth.setVisible(true);
-        comboBoxQuarter.setDisable(false);
         btnQuarter.setDisable(false);
-        btnAddQuarter.setDisable(false);
     }
 
     //ham hien thi comboBox Quarter
     @FXML
     public void comboBoxQuarterEnable(ActionEvent e)
     {
-        btnQuarter.setVisible(false);
-        btnMonthEn.setDisable(true);
-        comboBox.setDisable(true);
-        comboBoxQuarter.setDisable(false);
         btnMonth.setDisable(true);
+        comboBox.setDisable(true);
         btnAddMonth.setDisable(true);
+        btnQuarter.setVisible(false);
+        btnQuarterEn.setVisible(true);
+        btnQuarterEn.setDisable(false);
+        comboBoxQuarter.setDisable(false);
+        btnAddQuarter.setDisable(false);
     }
 
     public void comboBoxQuarterEnable1(ActionEvent e)
     {
-        btnMonthEn.setDisable(false);
+        comboBoxQuarter.setDisable(true);
+        btnAddQuarter.setDisable(true);
+        btnQuarterEn.setDisable(true);
+        btnQuarterEn.setVisible(false);
         btnQuarter.setVisible(true);
-        comboBox.setDisable(false);
         btnMonth.setDisable(false);
-        btnAddMonth.setDisable(false);
     }
     //loadTable cua tab thong ke theo thang
     public void loadTable3() throws SQLException {
@@ -834,6 +892,7 @@ public class menuAdminController implements Initializable {
 
         profitM.setProfit(profitDay);
         profitListMonths.add(profitM);
+        profitDay = 0;
         try{
             addToTableMonth(profitM);
             ShowAlert.show("Add successful !", Alert.AlertType.INFORMATION);
@@ -881,6 +940,7 @@ public class menuAdminController implements Initializable {
 
         profitQ.setProfit(profitDay);
         profitQuarters.add(profitQ);
+        profitDay = 0;
         try{
             addToTableQuarter(profitQ);
             ShowAlert.show("Add successful !", Alert.AlertType.INFORMATION);
@@ -915,4 +975,21 @@ public class menuAdminController implements Initializable {
        preparedStatement.executeUpdate();
        connection.commit();
    }
+
+    //Xoa table Month
+//    @FXML
+//    public void EraseMonth(ActionEvent e) throws SQLException {
+//        try {
+//            query = "TRUNCATE TABLE testthongke2";
+//            preparedStatement = connection.prepareStatement(query);
+//            resultSet = preparedStatement.executeQuery(query);
+//            loadTable3();
+//            setChartMonth();
+//        }catch (SQLException ex)
+//        {
+//            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
+
 }

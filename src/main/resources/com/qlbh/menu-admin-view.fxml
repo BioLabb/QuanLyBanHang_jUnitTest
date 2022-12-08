@@ -151,8 +151,6 @@
 <!--&gt;>>>>>> 910a4cc838cc43f8763a3dee9dd7336b1259f656-->
                                      </columns>
                                  </TableView>
-
-                        <DatePicker fx:id="Dateta" layoutX="464.0" layoutY="198.0" />
                         <Label layoutX="329.0" layoutY="215.0" text="Thành Tiền:" />
                         <Label fx:id="PriceOut" layoutX="397.0" layoutY="215.0" text="Label" />
 
@@ -229,6 +227,7 @@
                         <ComboBox fx:id="comboBoxQuarter" layoutX="151.0" layoutY="14.0" onAction="#comboBoxQuarterChange" prefWidth="150.0" promptText="Quarter" />
                         <Button fx:id="btnMonth" layoutX="321.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxEnable" text="Month" />
                         <Button fx:id="btnQuarter" layoutX="387.0" layoutY="14.0" mnemonicParsing="false" onAction="#comboBoxQuarterEnable" text="Quarter" />
+                        <ComboBox fx:id="comboBoxYear" layoutX="504.0" layoutY="14.0" onAction="#comboBoxYearChanged" prefWidth="150.0" promptText="Year" />
                              </children>
                   </AnchorPane>
                      </content>
