@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class menuAdminController implements Initializable {
@@ -273,7 +274,7 @@ public class menuAdminController implements Initializable {
         table_product.setItems(tmp);
     }
     else{
-        ShowAlert.show("Mã đơn hàng trống", Alert.AlertType.WARNING);
+        ShowAlert.show("Tên đơn hàng trống", Alert.AlertType.WARNING);
         table_product.setItems(productObservableList);
     }
 }
@@ -322,6 +323,21 @@ public class menuAdminController implements Initializable {
        return false;
    }
 
+   public boolean isPhone(String s){
+       Pattern p = Pattern.compile("^[0-9]{10}$");
+       if(p.matcher(s).find())
+           return true;
+       return false;
+   }
+
+   public boolean isMail(String s){
+        Pattern p = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]+@[a-zA-Z]+(\\.com)$");
+        if(p.matcher(s).find())
+            return true;
+        return false;
+   }
+
+
 
    public void addEmployee() throws SQLException {
        String userName= txt_user_name.getText();
@@ -341,15 +357,19 @@ public class menuAdminController implements Initializable {
                if(!(isCheckLength(userName,6,16))){
                    ShowAlert.show("user từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
                }
-               else if(!isCheckLength(passWord,6,16)){
+               else if(!isCheckLength(passWord,8,16)){
                    ShowAlert.show("password từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
                }
                else if(userName.equals(EmployeesStore.getEmployess().getUser())){
                    ShowAlert.show("password không được trùng với username", Alert.AlertType.WARNING);
                }else if(!validator(date)){
                    ShowAlert.show("Ngày tháng không hợp lê", Alert.AlertType.WARNING);
-               }
-               else {
+               }else if(!isPhone(phone)){
+                   ShowAlert.show("Số điện thoại không hợp lệ", Alert.AlertType.WARNING);
+               }else if(!isMail(email)){
+               ShowAlert.show("Email không hợp lệ", Alert.AlertType.WARNING);
+           }
+           else {
                    String nv = lb_nv.getText();
                    String userSignUp = nv + txt_user_name.getText();
                    Employess employess = new Employess(lastName,firstName, Date.valueOf(date),email,phone,adress,
