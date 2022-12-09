@@ -11,7 +11,7 @@ public class demo extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        String rm = "menu-admin-view.fxml";
+        String rm = "table-view.fxml";
         Parent roof = FXMLLoader.load(getClass().getResource(rm));
         Scene scene = new Scene(roof);
         stage.setScene(scene);
