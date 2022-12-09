@@ -164,17 +164,9 @@ public class EmployessController implements Initializable {
     public void bill(ActionEvent e) throws IOException {
         menuView.OutputBill(e);
     }
-    public void goBack(ActionEvent e) throws IOException {
-        menuView.nextPage(e,"sign-view.fxml","Sign");
-    }
 
 
-    private boolean validator(String val){
-        if(val.isEmpty()){
-            return false;
-        }
-        return true;
-    }
+    // -----------QUẢN LÝ KHO---------------
     @FXML
     private TextField product_id;
     @FXML
@@ -226,6 +218,12 @@ public class EmployessController implements Initializable {
         }
         return false;
     }
+
+    public  boolean validator(String s){
+        if(s.isEmpty())
+            return false;
+        return true;
+    }
     public void searchProductById(ActionEvent event) {
         if (validator(product_id.getText())) {
             if(!isProductId(product_id.getText())){
@@ -265,4 +263,6 @@ public class EmployessController implements Initializable {
             table_product.setItems(productObservableList);
         }
     }
+
+
 }
