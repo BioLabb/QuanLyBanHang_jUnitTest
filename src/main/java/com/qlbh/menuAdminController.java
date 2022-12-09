@@ -229,7 +229,9 @@ public class menuAdminController implements Initializable {
         int id = (int) (Math.random() * Math.pow(10, 5)) + 9 * (int) Math.pow(10, 5);
         String idString = String.format("%d", id);
         id_order_detail.setText(idString);
+
         contentTextFieldChange(6);
+
         comboBox.setItems(list);
         comboBoxQuarter.setItems(listQuarter);
         comboBoxYear.setItems(listYear);
@@ -272,11 +274,11 @@ public class menuAdminController implements Initializable {
 //        }
 
 
-//        try {
-//            initTableProduct();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            initTableProduct();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // -------------BÁN HÀNG-------------
@@ -412,8 +414,27 @@ public class menuAdminController implements Initializable {
 
     }
 
+    public boolean isProductId(String s){
+        Pattern p = Pattern.compile("^[0-9]{1,6}$");
+        if(p.matcher(s).find()){
+            return true;
+        }
+        return  false;
+    }
+
+    public boolean isPorductName(String s){
+        Pattern p = Pattern.compile("^[a-zA-Z]+$");
+        if(p.matcher(s).find()){
+            return true;
+        }
+        return false;
+    }
     public void searchProductById(ActionEvent event) {
         if (validator(product_id.getText())) {
+            if(!isProductId(product_id.getText())){
+                ShowAlert.show("Vui lòng nhập lại mã sản phẩm", Alert.AlertType.ERROR);
+                return;
+            }
             int id = Integer.parseInt(product_id.getText());
             List<TableProduct> tableProducts = productObservableList.stream().filter(pt -> pt.getProductID() == id).collect(Collectors.toList());
 
@@ -430,6 +451,10 @@ public class menuAdminController implements Initializable {
 
     public void searchProductByProductName(ActionEvent event) {
         if (validator(product_Name.getText().trim())) {
+            if(!isPorductName(product_Name.getText().trim())){
+                ShowAlert.show("Vui lòng nhập lại sản phẩm", Alert.AlertType.WARNING);
+                return;
+            }
             String name = product_Name.getText().trim();
             List<TableProduct> tableProducts = productObservableList.stream().filter(pt -> pt.getProductName().equals(name)).collect(Collectors.toList());
 
@@ -443,16 +468,8 @@ public class menuAdminController implements Initializable {
             table_product.setItems(productObservableList);
         }
     }
-//}
-//<<<<<<< HEAD
-//    else{
-//        ShowAlert.show("Tên đơn hàng trống", Alert.AlertType.WARNING);
-//        table_product.setItems(productObservableList);
-//    }
-//}
-//
-//
-//
+
+
 //// ------------ THÊM NHÂN VIÊN-------------
    // kiểm tra rỗng
    private boolean validator(String val){
