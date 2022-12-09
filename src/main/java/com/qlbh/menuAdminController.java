@@ -32,12 +32,7 @@ import java.util.logging.Logger;
 
 public class menuAdminController implements Initializable {
 
-    @FXML
-    private Label PriceOut;
-    private double priceout = 0;
-    private int id;
-    @FXML
-    private Label id_other;
+
     @FXML
     private Label lb_maganer;
     @FXML
@@ -79,40 +74,6 @@ public class menuAdminController implements Initializable {
 
     @FXML
     private TableView<TableOrderDetail> order_detail;
-//    @FXML
-//    private TableColumn<OrderTable,Integer> unit_price_colum;
-//    private ObservableList<OrderTable> orderDetailList = FXCollections.observableArrayList();
-
-    //tableview tab 1
-    @FXML
-    private TableView<product> table;
-    @FXML
-    private TableColumn<product, Integer> numberColumn;
-    @FXML
-    private TableColumn<product, String > IDcolumn;
-    @FXML
-    private TableColumn<product, String> nameColumn;
-    @FXML
-    private TableColumn<product, Integer> amountColumn;
-    @FXML
-    private TableColumn<product, String> dvColumn;
-    @FXML
-    private TableColumn<product, Double> priceColumn;
-    @FXML
-    private TableColumn<product, Double> thanhTienColumn;
-    @FXML
-    private TableColumn<product, Double> buyColumn;
-    @FXML
-    private TableColumn<product, Date> Dateh;
-
-    private ObservableList<product> productList;
-
-    @FXML
-    private DatePicker Dateta;
-
-    ObservableList<product> proList = FXCollections.observableArrayList();
-
-    //table view thong ke theo ngay
     @FXML
     public ComboBox<Integer> comboBox;
     ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
@@ -541,60 +502,7 @@ public class menuAdminController implements Initializable {
         menuView.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
     }
 
-    //Day la du lieu rieng cua Hieu neu cai kia load khong duoc cu doi table view roi xai khong anh huong den
-    //database trong sql
-    //loadTable cua tab 1
-//    public void loadTable() throws SQLException {
-//        connection = JDBC.getCnn();
-//        refreshtable();
-//
-//        numberColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("Number"));
-//        IDcolumn.setCellValueFactory(new PropertyValueFactory<product, String>("ID"));
-//        nameColumn.setCellValueFactory(new PropertyValueFactory<product, String>("nameProduct"));
-//        amountColumn.setCellValueFactory(new PropertyValueFactory<product, Integer>("amount"));
-//        dvColumn.setCellValueFactory(new PropertyValueFactory<product, String>("dv"));
-//        priceColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("gia"));
-//        thanhTienColumn.setCellValueFactory(new PropertyValueFactory<product, Double>("thanhTien"));
-//        Dateh.setCellValueFactory(new PropertyValueFactory<product, Date>("Dateh"));
-//    }
 
-    //Day la du lieu rieng cua Hieu neu cai kia load khong duoc cu doi table view roi xai khong anh huong den
-    //database trong sql (co san trong menu-admin-view.fxml).
-    //refreshtable cua tab 1
-//    @FXML
-//    private void refreshtable() throws SQLException {
-//        try {
-//            proList.clear();
-//            query = "SELECT * FROM testtable";
-//            preparedStatement = connection.prepareStatement(query);
-//            resultSet = preparedStatement.executeQuery();
-//
-//            while (resultSet.next())
-//            {
-//                proList.add(new product(resultSet.getInt("STT"), resultSet.getString("Mã Sản Phẩm"), resultSet.getString("Tên Sản Phẩm"),
-//                        resultSet.getInt("Số lượng"),resultSet.getString("Đơn vị"), resultSet.getDouble("Giá"), resultSet.getDouble("Thành Tiền"),
-//                        resultSet.getDate("Date")));
-//                table.setItems(proList);
-//            }
-//            BillView.product = proList;
-//        }catch (SQLException ex)
-//        {
-//            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-
-
-    //Tinh tong thanh tien cua tab 1
-//    public void sumprice()
-//    {
-//        for(product c:proList)
-//        {
-//            priceout += c.getGia();
-//        }
-//        PriceOut.setText(String.valueOf(priceout));
-//    }
-
-    //loadTable cua tab thong ke theo ngay
     public void loadTable2() throws SQLException {
         connection = JDBC.getCnn();
         int y = comboBoxYear.getValue();
@@ -1054,21 +962,5 @@ public class menuAdminController implements Initializable {
         connection.commit();
     }
 
-
-    //Xoa table Month
-//    @FXML
-//    public void EraseMonth(ActionEvent e) throws SQLException {
-//        try {
-//            query = "TRUNCATE TABLE testthongke2";
-//            preparedStatement = connection.prepareStatement(query);
-//            resultSet = preparedStatement.executeQuery(query);
-//            loadTable3();
-//            setChartMonth();
-//        }catch (SQLException ex)
-//        {
-//            Logger.getLogger(menuAdminController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//    }
 
 }
