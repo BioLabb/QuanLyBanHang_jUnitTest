@@ -295,8 +295,23 @@ public class menuAdminController implements Initializable {
         order_detail.setItems(TableOrderDetailStore.getTableOrderDetailsList());
     }
 
+    public boolean isQuantity(String s){
+        Pattern p = Pattern.compile("^[0-9]{1,6}$");
+        if(p.matcher(s).find())
+            return true;
+        return false;
+    }
+
     // thêm item vào table
     public void addOrderIntoTable(ActionEvent event) {
+        if(!isProductId(id_product.getText().trim())){
+            ShowAlert.show("Thêm không thành công do số mã hàng hóa không hợp lệ", Alert.AlertType.ERROR);
+            return;
+        }else if(!isQuantity(product_quantity.getText().trim())){
+            ShowAlert.show("Thêm không thành công do số số lương hóa không hợp lệ", Alert.AlertType.ERROR);
+            return;
+
+        }
         int orderId = Integer.parseInt(id_order_detail.getText());
         int productID = Integer.parseInt(id_product.getText());
         String productName = product_name.getText();
@@ -305,16 +320,30 @@ public class menuAdminController implements Initializable {
         double orderPrice = Double.parseDouble(product_price.getText());
         double total = productQuantity * orderPrice;
         TableOrderDetail tableOrderDetail = new TableOrderDetail(orderId, productID, productName, productQuantity, orderPrice, total);
-        //tableOrderDetail.setId(orderDetailList.size()+1);  // sô thứ tự
-//        orderDetailList.add(tableOrderDetail);
+        tableOrderDetail.setStt(TableOrderDetailStore.getTableOrderDetailsList().size()+1);
         TableOrderDetailStore.addList(tableOrderDetail);
         order_detail.setItems(TableOrderDetailStore.getTableOrderDetailsList());
 
         pay_order_detail.setText(String.valueOf(totalPay()));
     }
 
+    boolean isMoneyCuS(String s){
+        Pattern p = Pattern.compile("^/^0[0-9]$");
+        if(p.matcher(s).find()){
+            return true;
+        }
+        return false;
+    }
     public void buy(ActionEvent event) throws SQLException, IOException {
-        // đưa đơn hàng vào cơ sở dữ liệu
+        if(TableOrderDetailStore.getTableOrderDetailsList().size() == 0){
+            ShowAlert.show("Vui lòng thêm hàng hóa", Alert.AlertType.INFORMATION);
+            return;
+        }
+        if(cus_pay.getText().isEmpty()){
+            ShowAlert.show("Vui lòng nhập số tiền khách đã đưa", Alert.AlertType.INFORMATION);
+            return;
+        }
+        //
         for (TableOrderDetail value : TableOrderDetailStore.getTableOrderDetailsList()) {
             TableOrderDetailStore.setId(Integer.parseInt(id_order_detail.getText()));
             Date date = Date.valueOf(LocalDate.now());
@@ -322,7 +351,6 @@ public class menuAdminController implements Initializable {
 
             TableOrderDetailStore.setPay(Double.parseDouble(pay_order_detail.getText()));
             TableOrderDetailStore.setChange(Double.parseDouble(change.getText()));
-
 
             OrderDetails orderDetails = new OrderDetails(value.getOrderID(), value.getProductID(), value.getProductQuantity(), value.getTotal(), date);
             OrderDetailsServices.addOrderDetail(orderDetails);
@@ -353,6 +381,10 @@ public class menuAdminController implements Initializable {
 
     private void pay_change() {
         cus_pay.textProperty().addListener((observable, oldVal, newVal) -> {
+//            if(!isMoneyCuS(newVal)){
+//                cus_pay.setText(oldVal);
+//                return;
+//            }
             double pay = Double.parseDouble(pay_order_detail.getText());
             double cus_money = Double.parseDouble(cus_pay.getText());
             double moneyOfCus;
@@ -584,103 +616,6 @@ public class menuAdminController implements Initializable {
        menuView.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
    }
 //=======
-
-
-
-//    // ------------ THÊM NHÂN VIÊN-------------
-    // kiểm tra rỗng
-//    private boolean validator(String val){
-//        if(val.isEmpty()){
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    // kiểm tra ngày rỗng
-//    private boolean validator(LocalDate date){
-//        if(date == null){
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    private boolean isUserNameEmployee(String user){
-//        if(user.startsWith("NV"))
-//            return true;
-//        return false;
-//    }
-//
-//    private boolean isCheckLength(String string,int lengthMin,int lengthMax){
-//        if(string.length() >= lengthMin && string.length() <= lengthMax)
-//            return true;
-//        return false;
-//    }
-//
-//    // kiểm tra tài khoản tồn tại hay chưa
-//    public boolean isUserExist(String userName) throws SQLException {
-//
-//        Connection connection = JDBC.getCnn();
-//        PreparedStatement stm = connection.prepareStatement("select user from employees where user = ?");
-//        stm.setString(1, userName);
-//        ResultSet rs = stm.executeQuery();
-//        if(rs.next()){
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//
-//    public void addEmployee() throws SQLException {
-//        String userName= txt_user_name.getText();
-//        // kiểm tra tài khoản đã tạo hay chưa
-//        if(!isUserExist("NV"+userName)){
-//            String lastName= txt_last_name.getText();
-//            String firstName = txt_first_name.getText();
-//            LocalDate date = txt_date.getValue();
-//            String adress = txt_adress.getText();
-//            String passWord = txt_password.getText();
-//            String phone = txt_phone.getText();
-//            String email = txt_email.getText();
-//
-//            // kiểm tra thông tin dã được nhập đầy đủ chưa
-//            if(validator(lastName) && validator(firstName) && validator(adress) && validator(userName)
-//                    && validator(passWord) && validator(email)){
-//                if(!(isCheckLength(userName,6,16))){
-//                    ShowAlert.show("user từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
-//                }
-//                else if(!isCheckLength(passWord,6,16)){
-//                    ShowAlert.show("password từ 8 đến 16 ký tự", Alert.AlertType.INFORMATION);
-//                }
-//                else if(userName.equals(EmployeesStore.getEmployess().getUser())){
-//                    ShowAlert.show("password không được trùng với username", Alert.AlertType.WARNING);
-//                }else if(!validator(date)){
-//                    ShowAlert.show("Ngày tháng không hợp lê", Alert.AlertType.WARNING);
-//                }
-//                else {
-//                    String nv = lb_nv.getText();
-//                    String userSignUp = nv + txt_user_name.getText();
-//                    Employess employess = new Employess(lastName,firstName, Date.valueOf(date),email,phone,adress,
-//                            userSignUp,passWord,false);
-//                    EmployessServices.addEmployees(employess);
-//                    ShowAlert.show("Thêm thành công", Alert.AlertType.INFORMATION);
-//                }
-//            }else{
-//                ShowAlert.show("Chưa điền đầy đủ thông tin", Alert.AlertType.WARNING);
-//            }
-//        }
-//        else{
-//            ShowAlert.show("tài khoản đã tồn tại", Alert.AlertType.INFORMATION);
-//        }
-//    }
-//
-//    public void goBack(ActionEvent e) throws IOException {
-//        menuView.nextPage(e,"sign-view.fxml","Sign");
-//    }
-//
-//    public void removeEmployee(ActionEvent e) throws IOException {
-//
-//        menuView.nextPage(e,"remove-employee-view.fxml","xóa nhân viên");
-//    }
 
 //    //Day la du lieu rieng cua Hieu neu cai kia load khong duoc cu doi table view roi xai khong anh huong den
 //    //database trong sql
